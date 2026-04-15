@@ -1,0 +1,33 @@
+name: Auto Update TV Links
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # প্রতিদিন রাত ১২টায় অটো চলবে
+  workflow_dispatch: # চাইলে ম্যানুয়ালিও চালানো যাবে
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run update script
+        run: python update_links.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add live_tv.m3u
+          git commit -m "Auto-updated channel links" || exit 0
+          git push
+          
