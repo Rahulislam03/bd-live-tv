@@ -1,48 +1,49 @@
 import requests
+import json
+import re
 
-# বর্তমানে সচল আছে এমন কিছু সোর্স
-sources = [
-    "https://raw.githubusercontent.com/Saifur-Rahman-Saif/Bangla-IPTV/main/Bangla-IPTV.m3u",
-    "https://raw.githubusercontent.com/S-K-H-S-N/Bangla-IPTV/main/Bangla.m3u",
-    "https://iptv-org.github.io/iptv/countries/bd.m3u"
-]
+# সোর্স ইউআরএল
+M3U_URL = "https://raw.githubusercontent.com/abusaeeidx/M3u8-URL-Extractor-from-Live-Server/master/IPTV.m3u"
 
-def update_m3u():
-    all_content = "#EXTM3U\n"
-    found_any = False
-    
-    # ব্রাউজার হিসেবে পরিচয় দেওয়ার জন্য Headers
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-    }
-    
-    for url in sources:
-        try:
-            print(f"Fetching from: {url}")
-            response = requests.get(url, headers=headers, timeout=15)
-            if response.status_code == 200:
-                content = response.text
-                if "#EXTINF" in content:
-                    # ডুপ্লিকেট হেডার ক্লিন করা
-                    clean_content = content.replace("#EXTM3U", "").strip()
-                    all_content += clean_content + "\n"
-                    found_any = True
-                    print(f"Successfully added channels from: {url}")
-                else:
-                    print(f"No valid M3U data in: {url}")
-            else:
-                print(f"Error {response.status_code} for: {url}")
-        except Exception as e:
-            print(f"Failed to fetch {url}: {e}")
+def fetch_and_convert():
+    try:
+        response = requests.get(M3U_URL, timeout=15)
+        if response.status_code != 200: return
+        
+        lines = response.text.split('\n')
+        channels = []
+        current_name = ""
+        current_logo = ""
+        current_group = ""
 
-    if found_any:
-        # একই চ্যানেল বারবার থাকলে সেগুলো বাদ দেওয়া (Optional but good)
-        with open("live_tv.m3u", "w", encoding="utf-8") as f:
-            f.write(all_content.strip())
-        print("Success: live_tv.m3u has been updated with working channels!")
-    else:
-        print("Critical Error: No channels were found! All sources might be down.")
+        for line in lines:
+            line = line.strip()
+            if line.startswith('#EXTINF:'):
+                # নাম, লোগো এবং গ্রুপ এক্সট্র্যাক্ট করা
+                name_match = re.search(r',(.+)', line)
+                logo_match = re.search(r'tvg-logo="([^"]+)"', line)
+                group_match = re.search(r'group-title="([^"]+)"', line)
+                
+                current_name = name_match.group(1) if name_match else "Unknown Channel"
+                current_logo = logo_match.group(1) if logo_match else ""
+                current_group = group_match.group(1) if group_match else "General"
+                
+            elif line.startswith('http'):
+                channels.append({
+                    "name": current_name,
+                    "url": line,
+                    "logo": current_logo,
+                    "group": current_group
+                })
+
+        # JSON ফাইল হিসেবে সেভ করা
+        with open('channels.json', 'w', encoding='utf-8') as f:
+            json.dump({"channels": channels}, f, indent=4, ensure_ascii=False)
+        
+        print(f"Successfully updated {len(channels)} channels!")
+
+    except Exception as e:
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
-    update_m3u()
-                
+    fetch_and_convert()
