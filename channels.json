@@ -1,31 +1,37 @@
 {
   "info": {
-    "owner": "Rahul Islam",
+    "owner": "@rahulislam03",
     "total_channels": 100,
-    "version": "2.0"
+    "last_update": "2026-04-17"
   },
   "channels": [
     { "name": "T Sports HD", "url": "https://mflixott.com/tv/plusbox/live/TSportsHD/index.m3u8", "logo": "https://www.tsports.com/static/media/tsports-logo.8170c0c5.png" },
     { "name": "Sony Sports Ten 1", "url": "https://bldcmprod-cdn.toffeelive.com/cdn/live/sony_sports_1_hd/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Sony_Sports_Ten_1_logo.svg/1200px-Sony_Sports_Ten_1_logo.svg.png" },
     { "name": "Sony Sports Ten 2", "url": "https://bldcmprod-cdn.toffeelive.com/cdn/live/sony_sports_2_hd/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Sony_Sports_Ten_2_logo.svg/1200px-Sony_Sports_Ten_2_logo.svg.png" },
+    { "name": "Sony Sports Ten 3", "url": "https://bldcmprod-cdn.toffeelive.com/cdn/live/sony_sports_3_hd/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d8/Sony_Sports_Ten_3_logo.svg/1200px-Sony_Sports_Ten_3_logo.svg.png" },
     { "name": "Sony Sports Ten 5", "url": "https://bldcmprod-cdn.toffeelive.com/cdn/live/sony_sports_5_hd/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/6/69/Sony_Sports_Ten_5_logo.svg/1200px-Sony_Sports_Ten_5_logo.svg.png" },
+    { "name": "Star Sports 1 HD", "url": "http://103.175.73.12:8080/live/235/235_0.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/commons/2/23/Star_Sports_1_HD.png" },
     { "name": "Somoy News TV", "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1702/output/index.m3u8", "logo": "https://www.somoynews.tv/img/somoy-logo.png" },
     { "name": "Jamuna TV", "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1701/output/index.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/2/2f/Jamuna_TV_logo.png" },
     { "name": "Independent TV", "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1705/output/index.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/8/87/Independent_Television_logo.png/220px-Independent_Television_logo.png" },
     { "name": "71 TV News", "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1706/output/index.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/bn/4/4e/71_TV_logo.png" },
+    { "name": "DBC News", "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1704/output/index.m3u8", "logo": "https://dbcnews.tv/logo.png" },
+    { "name": "News 24 HD", "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1703/output/index.m3u8", "logo": "https://www.news24bd.tv/logo.png" },
+    { "name": "Zee Bangla", "url": "https://bldcmprod-cdn.toffeelive.com/cdn/live/zee_bangla/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Zee_Bangla_logo.png/250px-Zee_Bangla_logo.png" },
+    { "name": "Star Jalsha", "url": "https://bldcmprod-cdn.toffeelive.com/cdn/live/star_jalsha/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/c/c5/Star_Jalsha_Logo.png/200px-Star_Jalsha_Logo.png" },
+    { "name": "Colors Bangla", "url": "https://bldcmprod-cdn.toffeelive.com/cdn/live/colors_bangla/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/2/23/Colors_Bangla_Logo.png" },
     { "name": "Doraemon 24/7", "url": "https://cloudfrontnet.vercel.app/tplay/playout/209902/master.m3u8", "logo": "https://i.pinimg.com/736x/0d/1d/9d/0d1d9d40f58ec35661633534d07d64d5.jpg" },
     { "name": "Motu Patlu 24/7", "url": "https://cloudfrontnet.vercel.app/tplay/playout/209622/master.m3u8", "logo": "https://fancode.com/skillup-uploads/cms-media/motu_patlu.jpg" },
     { "name": "Gopal Bhar 24/7", "url": "https://cloudfrontnet.vercel.app/tplay/playout/209611/master.m3u8", "logo": "https://i.ytimg.com/vi/MUnH0S69-Wc/maxdefault.jpg" },
     { "name": "Shinchan 24/7", "url": "https://cloudfrontnet.vercel.app/tplay/playout/209901/master.m3u8", "logo": "https://i.pinimg.com/736x/21/6b/9f/216b9f69747a114175394200147c87c9.jpg" },
-    { "name": "Chhota Bheem", "url": "https://live20.bozztv.com/giatvplayout7/giatv-208314/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/f/f9/Chhota_Bheem_character.png" },
+    { "name": "Tom & Jerry", "url": "https://live20.bozztv.com/giatvplayout7/giatv-208314/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/5/5f/Tom_and_Jerry_title_card.png" },
     { "name": "Bollywood Action", "url": "http://103.175.73.12:8080/live/270/270_0.m3u8", "logo": "https://cdn-icons-png.flaticon.com/512/716/716429.png" },
-    { "name": "Zee Bangla", "url": "https://bldcmprod-cdn.toffeelive.com/cdn/live/zee_bangla/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Zee_Bangla_logo.png/250px-Zee_Bangla_logo.png" },
-    { "name": "Star Jalsha", "url": "https://bldcmprod-cdn.toffeelive.com/cdn/live/star_jalsha/playlist.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/c/c5/Star_Jalsha_Logo.png/200px-Star_Jalsha_Logo.png" },
     { "name": "Kolkata Movies HD", "url": "https://cloudfrontnet.vercel.app/tplay/playout/209627/master.m3u8", "logo": "https://cdn-icons-png.flaticon.com/512/716/716429.png" },
     { "name": "Saudi Quran TV", "url": "https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Saudi_Quran_TV_logo.png" },
     { "name": "Saudi Sunnah TV", "url": "https://cdn-globecast.akamaized.net/live/eds/saudi_sunnah/hls_roku/index.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/commons/7/70/Saudi_Sunnah_TV_logo.png" },
+    { "name": "NHK World HD", "url": "https://nhkworld.akamaized.net/hls/live/2023508/nhkworld/master.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/commons/4/43/NHK_World_logo.png" },
     { "name": "DW News English", "url": "https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Deutsche_Welle_logo.svg" },
-    { "name": "NHK World HD", "url": "https://nhkworld.akamaized.net/hls/live/2023508/nhkworld/master.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/commons/4/43/NHK_World_logo.png" }
+    { "name": "Al Jazeera English", "url": "https://live-hls-web-aje.akamaized.net/hls/live/2036308/aje/index.m3u8", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Al_Jazeera_English_logo.svg/1200px-Al_Jazeera_English_logo.svg.png" }
   ]
     }
-      
+    
