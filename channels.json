@@ -1,0 +1,19 @@
+{
+  "channels": [
+    {
+      "name": "T Sports HD",
+      "url": "https://mflixott.com/tv/plusbox/live/TSportsHD/index.m3u8",
+      "logo": "https://www.tsports.com/static/media/tsports-logo.8170c0c5.png"
+    },
+    {
+      "name": "Somoy News",
+      "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1702/output/index.m3u8",
+      "logo": "https://www.somoynews.tv/img/somoy-logo.png"
+    },
+    {
+      "name": "ATN News",
+      "url": "https://bldcmprod-cdn.toffeelive.com/cdn/live/atn_news/playlist.m3u8",
+      "logo": "https://assets-prod.services.toffeelive.com/f_png,w_300,q_85/py5j-JQBv9knK3AHxDTY/posters/83d65b16-5386-4e4b-88a2-f38b25866173.webp"
+    }
+  ]
+}
