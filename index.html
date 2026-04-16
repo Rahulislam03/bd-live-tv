@@ -3,116 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAHUL IPTV PRO | 2026</title>
+    <title>BD LIVE TV | RAHUL</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
-        :root { --main-color: #00ffcc; --bg-dark: #0f0f0f; --card-bg: #1a1a1a; }
-        body { margin: 0; background: var(--bg-dark); color: white; font-family: 'Segoe UI', sans-serif; }
-        
-        /* Header & Search */
-        header { padding: 20px; text-align: center; background: #000; border-bottom: 2px solid var(--main-color); sticky; top: 0; z-index: 1000; }
-        .search-container { margin-top: 15px; }
-        input { width: 80%; max-width: 400px; padding: 12px; border-radius: 25px; border: 1px solid var(--main-color); background: #222; color: #fff; outline: none; }
-
-        /* Video Player */
-        .player-wrapper { width: 100%; max-width: 900px; margin: 20px auto; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px rgba(0,255,204,0.3); aspect-ratio: 16/9; }
+        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; text-align: center; }
+        header { padding: 15px; border-bottom: 2px solid #ffcc00; }
+        .video-container { width: 95%; max-width: 800px; margin: 20px auto; background: #111; border-radius: 10px; overflow: hidden; aspect-ratio: 16/9; }
         video { width: 100%; height: 100%; }
-
-        /* Grid System */
-        .container { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; }
-        .channel-card { background: var(--card-bg); border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; border: 1px solid #333; transition: 0.3s; }
-        .channel-card:hover { transform: scale(1.05); border-color: var(--main-color); box-shadow: 0 5px 15px rgba(0,255,204,0.2); }
-        .channel-card img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 10px; }
-        .channel-card p { margin: 0; font-size: 12px; font-weight: bold; color: #ccc; overflow: hidden; height: 34px; }
-        
-        #loading { text-align: center; color: var(--main-color); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; padding: 20px; }
+        .card { background: #1a1a1a; padding: 15px; border-radius: 10px; cursor: pointer; border: 1px solid #333; transition: 0.3s; }
+        .card:hover { border-color: #ffcc00; transform: scale(1.05); }
+        .card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px; }
+        .card p { margin: 0; font-size: 13px; font-weight: bold; }
     </style>
 </head>
 <body>
+    <header><h1>BD LIVE <span style="color:#ffcc00">TV</span></h1></header>
+    <div class="video-container"><video id="video" controls autoplay playsinline></video></div>
+    <div class="grid" id="container"></div>
 
-<header>
-    <h2 style="margin:0; letter-spacing: 2px;">RAHUL <span style="color:var(--main-color)">IPTV PRO</span></h2>
-    <div class="search-container">
-        <input type="text" id="searchBar" placeholder="চ্যানেল বা মুভি খুঁজুন...">
-    </div>
-</header>
+    <script>
+        const video = document.getElementById('video');
+        const container = document.getElementById('container');
+        let hls = new Hls();
 
-<div class="player-wrapper">
-    <video id="video" controls autoplay poster="https://i.ibb.co/3S9f4XN/loading.png"></video>
-</div>
-
-<div id="loading">চ্যানেলগুলো লোড হচ্ছে...</div>
-<div class="container" id="channelGrid"></div>
-
-<script>
-    const video = document.getElementById('video');
-    const grid = document.getElementById('channelGrid');
-    const searchBar = document.getElementById('searchBar');
-    const loading = document.getElementById('loading');
-    let hls = new Hls();
-    let allChannels = [];
-
-    // ডেটা লোড করা
-    async function loadChannels() {
-        try {
-            const response = await fetch('channels.json');
-            const data = await response.json();
-            allChannels = data.channels;
-            displayChannels(allChannels);
-            loading.style.display = 'none';
-        } catch (e) {
-            loading.innerText = "ডেটা লোড করতে ব্যর্থ!";
+        async function loadChannels() {
+            try {
+                const res = await fetch('channels.json');
+                const data = await res.json();
+                data.channels.forEach(ch => {
+                    const div = document.createElement('div');
+                    div.className = 'card';
+                    div.innerHTML = `<img src="${ch.logo}"><p>${ch.name}</p>`;
+                    div.onclick = () => play(ch.url);
+                    container.appendChild(div);
+                });
+            } catch (e) { console.error("Error loading JSON"); }
         }
-    }
 
-    function displayChannels(channels) {
-        grid.innerHTML = "";
-        channels.forEach(ch => {
-            const div = document.createElement('div');
-            div.className = 'channel-card';
-            div.innerHTML = `
-                <img src="${ch.logo || 'https://cdn-icons-png.flaticon.com/512/716/716429.png'}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
-                <p>${ch.name}</p>
-            `;
-            div.onclick = () => playStream(ch.url, ch.name);
-            grid.appendChild(div);
-        });
-    }
-
-    function playStream(url, name) {
-        if (hls) hls.destroy();
-        
-        // অ্যাডভান্সড বাইপাস মেকানিজম
-        const config = {
-            xhrSetup: function(xhr, url) {
-                xhr.withCredentials = false;
-                // Toffee বা SonyLiv লিঙ্ক হলে বিশেষ হেডার সেট করা
-                if (url.includes("toffeelive.com") || url.includes("sony")) {
-                    xhr.setRequestHeader("User-Agent", "Toffee (Linux;Android 14)");
-                }
+        function play(url) {
+            if (hls) hls.destroy();
+            if (Hls.isSupported()) {
+                hls = new Hls({ xhrSetup: xhr => xhr.setRequestHeader("User-Agent", "Toffee (Linux;Android 14)") });
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
             }
-        };
-
-        if (Hls.isSupported()) {
-            hls = new Hls(config);
-            hls.loadSource(url);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = url;
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // সার্চ ফিচার
-    searchBar.addEventListener('input', (e) => {
-        const searchStr = e.target.value.toLowerCase();
-        const filtered = allChannels.filter(ch => ch.name.toLowerCase().includes(searchStr));
-        displayChannels(filtered);
-    });
-
-    loadChannels();
-</script>
-
+        loadChannels();
+    </script>
 </body>
 </html>
