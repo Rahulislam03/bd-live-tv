@@ -3,208 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BD LIVE TV | Ultra Premium</title>
+    <title>BD LIVE TV | Gallery View</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         :root {
             --primary: #00ff88;
-            --accent: #f42a41;
-            --bg-dark: #080808;
-            --card-bg: #151515;
-            --sidebar-width: 260px;
+            --bg: #0a0a0a;
+            --surface: #121212;
             --glass: rgba(255, 255, 255, 0.05);
         }
 
         body {
-            margin: 0; background: var(--bg-dark); color: white;
-            font-family: 'Segoe UI', Roboto, sans-serif; display: flex; height: 100vh; overflow: hidden;
+            margin: 0; background: var(--bg); color: white;
+            font-family: 'Segoe UI', sans-serif;
         }
 
-        /* --- Sidebar Navigation --- */
-        .sidebar {
-            width: var(--sidebar-width); background: #000; border-right: 1px solid #222;
-            display: flex; flex-direction: column; transition: 0.3s; z-index: 1000;
-        }
-
-        .brand {
-            padding: 25px; font-size: 22px; font-weight: 900; color: var(--primary);
-            display: flex; align-items: center; border-bottom: 1px solid #111;
-        }
-        .brand span { color: white; margin-left: 5px; }
-
-        .menu-items { padding: 20px 10px; flex: 1; }
-        .menu-link {
-            display: flex; align-items: center; padding: 12px 15px; margin-bottom: 8px;
-            border-radius: 10px; color: #888; text-decoration: none; transition: 0.3s;
-        }
-        .menu-link:hover, .menu-link.active {
-            background: var(--glass); color: var(--primary);
-        }
-        .menu-link i { margin-right: 15px; font-size: 18px; }
-
-        /* --- Main Content Area --- */
-        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-
-        /* Top Bar */
-        .top-bar {
-            height: 70px; background: rgba(8, 8, 8, 0.8); backdrop-filter: blur(20px);
+        /* --- Layout Structures --- */
+        header {
+            height: 70px; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 30px; border-bottom: 1px solid #222;
+            padding: 0 5%; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222;
         }
-        .search-box {
-            background: #111; border: 1px solid #333; border-radius: 20px;
-            padding: 8px 20px; width: 300px; display: flex; align-items: center;
+
+        .main-player {
+            width: 100%; background: #000; padding: 20px 0;
+            display: flex; flex-direction: column; align-items: center;
         }
-        .search-box input {
+
+        .video-box {
+            width: 90%; max-width: 1000px; aspect-ratio: 16/9;
+            background: #000; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.1); border: 1px solid #333;
+        }
+        video { width: 100%; height: 100%; }
+
+        /* --- Gallery Grid System --- */
+        .gallery-container {
+            padding: 40px 5%;
+        }
+
+        .section-title {
+            font-size: 22px; font-weight: bold; margin-bottom: 25px;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+        }
+
+        .channel-card {
+            background: var(--surface); border-radius: 15px; padding: 15px;
+            text-align: center; cursor: pointer; transition: 0.3s;
+            border: 1px solid #222; position: relative; overflow: hidden;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-10px); background: #1a1a1a;
+            border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .channel-card img {
+            width: 80px; height: 80px; object-fit: contain;
+            margin-bottom: 15px; border-radius: 12px;
+            background: #080808; padding: 10px;
+        }
+
+        .channel-card span {
+            display: block; font-size: 14px; font-weight: 500;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .channel-card.active {
+            border-color: var(--primary); background: rgba(0, 255, 136, 0.05);
+        }
+        .channel-card.active::after {
+            content: "PLAYING"; position: absolute; top: 0; right: 0;
+            background: var(--primary); color: #000; font-size: 10px;
+            padding: 2px 8px; font-weight: bold; border-bottom-left-radius: 10px;
+        }
+
+        /* --- Search Bar --- */
+        .search-area {
+            background: var(--glass); border: 1px solid #333; padding: 10px 20px;
+            border-radius: 30px; display: flex; align-items: center; width: 300px;
+        }
+        .search-area input {
             background: transparent; border: none; color: white; outline: none; margin-left: 10px; width: 100%;
         }
 
-        /* Video Area */
-        .content-body { display: flex; flex: 1; overflow: hidden; padding: 20px; gap: 20px; }
-        
-        .player-container { flex: 2; display: flex; flex-direction: column; }
-        .video-wrapper {
-            width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 20px;
-            overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            border: 1px solid #333; position: relative;
-        }
-        video { width: 100%; height: 100%; object-fit: contain; }
-
-        /* Channel List Area */
-        .channel-sidebar {
-            flex: 1; background: var(--card-bg); border-radius: 20px;
-            display: flex; flex-direction: column; border: 1px solid #222;
-        }
-        .channel-header { padding: 20px; font-weight: bold; border-bottom: 1px solid #222; }
-        .list-container { flex: 1; overflow-y: auto; padding: 15px; }
-        
-        .channel-item {
-            display: flex; align-items: center; padding: 12px; background: #1a1a1a;
-            border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.3s;
-            border: 1px solid transparent;
-        }
-        .channel-item:hover { transform: translateY(-3px); background: #222; border-color: var(--primary); }
-        .channel-item.active { background: linear-gradient(45deg, #006a4e, #00ff88); border: none; }
-        .channel-item img { width: 40px; height: 40px; border-radius: 8px; margin-right: 15px; background: #000; }
-
-        /* Ads Space */
-        .ad-space {
-            width: 100%; height: 80px; background: var(--glass);
-            margin-top: 20px; border-radius: 15px; border: 1px dashed #444;
-            display: flex; align-items: center; justify-content: center; font-size: 12px;
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 1024px) {
-            .sidebar { width: 70px; }
-            .menu-link span, .brand span { display: none; }
-            .sidebar:hover { width: var(--sidebar-width); }
-            .sidebar:hover .menu-link span, .sidebar:hover .brand span { display: inline; }
-        }
-
-        @media (max-width: 768px) {
-            body { flex-direction: column; overflow: auto; }
-            .sidebar { display: none; }
-            .content-body { flex-direction: column; padding: 10px; }
-            .player-container, .channel-sidebar { flex: none; width: 100%; }
+        @media (max-width: 600px) {
+            .channel-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+            .channel-card img { width: 50px; height: 50px; }
+            .search-area { width: 150px; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="sidebar">
-        <div class="brand">
-            <i class="fas fa-play-circle"></i> <span>BD LIVE <b>TV</b></span>
-        </div>
-        <div class="menu-items">
-            <a href="#" class="menu-link active"><i class="fas fa-home"></i> <span>Home</span></a>
-            <a href="#" class="menu-link"><i class="fas fa-tv"></i> <span>All Channels</span></a>
-            <a href="#" class="menu-link"><i class="fas fa-football-ball"></i> <span>Sports</span></a>
-            <a href="#" class="menu-link"><i class="fas fa-newspaper"></i> <span>News</span></a>
-            <a href="#" class="menu-link"><i class="fas fa-heart"></i> <span>Favorites</span></a>
-            <div style="border-top: 1px solid #222; margin: 20px 0;"></div>
-            <a href="#" class="menu-link"><i class="fas fa-cog"></i> <span>Settings</span></a>
-        </div>
-    </nav>
+<header>
+    <div style="font-size: 24px; font-weight: 900; color: var(--primary);">BD LIVE <span style="color: white;">TV</span></div>
+    <div class="search-area">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search channel..." onkeyup="searchChannel()">
+    </div>
+</header>
 
-    <main class="main-content">
-        <div class="top-bar">
-            <div class="search-box">
-                <i class="fas fa-search" style="color: #666;"></i>
-                <input type="text" id="search" placeholder="Search Channels..." onkeyup="filterChannels()">
-            </div>
-            <div class="user-profile">
-                <i class="fas fa-bell" style="margin-right: 20px; cursor: pointer;"></i>
-                <img src="https://ui-avatars.com/api/?name=Rahul+Islam&background=00ff88&color=000" style="width: 35px; border-radius: 50%;">
-            </div>
-        </div>
+<section class="main-player">
+    <div class="video-box">
+        <video id="player" controls autoplay poster="https://files.catbox.moe/k8u7t5.jpg"></video>
+    </div>
+    <div style="text-align: center; margin-top: 15px;">
+        <h2 id="now-playing" style="margin: 0; color: var(--primary);">Welcome to BD LIVE TV</h2>
+        <p style="color: #666; font-size: 14px;">Select a channel from the gallery below to start streaming</p>
+    </div>
+</section>
 
-        <div class="content-body">
-            <div class="player-container">
-                <div class="video-wrapper">
-                    <video id="main-video" controls autoplay poster="https://files.catbox.moe/k8u7t5.jpg"></video>
-                </div>
-                <div style="margin-top: 20px;">
-                    <h1 id="playing-title" style="margin:0; font-size: 24px;">সিলেক্ট করুন...</h1>
-                    <p style="color: #888; margin-top: 5px;"><i class="fas fa-circle" style="color: var(--primary); font-size: 8px;"></i> Ultra HD Streaming | No Buffer</p>
-                </div>
-                <div class="ad-space" id="ad-slot-1">
-                    ADS SPACE (BANNER 728x90)
-                </div>
-            </div>
-
-            <div class="channel-sidebar">
-                <div class="channel-header">
-                    <i class="fas fa-list"></i> CHANNEL LIST
-                </div>
-                <div class="list-container" id="list">
-                    </div>
-            </div>
+<section class="gallery-container">
+    <div class="section-title">
+        <i class="fas fa-th-large" style="color: var(--primary);"></i> সকল চ্যানেল সমাহার
+    </div>
+    <div class="channel-grid" id="gallery">
         </div>
-    </main>
+</section>
 
 <script>
     const m3uUrl = 'https://raw.githubusercontent.com/Rahulislam03/bd-live-tv/main/live_tv.m3u';
-    const video = document.getElementById('main-video');
-    const listDiv = document.getElementById('list');
-    const playingTitle = document.getElementById('playing-title');
+    const video = document.getElementById('player');
+    const gallery = document.getElementById('gallery');
+    const nowPlaying = document.getElementById('now-playing');
     let hls = new Hls();
 
-    async function loadTV() {
+    async function loadGallery() {
         try {
             const res = await fetch(m3uUrl);
-            const text = await res.text();
-            const lines = text.split('\n');
-            listDiv.innerHTML = '';
+            const data = await res.text();
+            const lines = data.split('\n');
+            gallery.innerHTML = '';
 
             for (let i = 0; i < lines.length; i++) {
                 if (lines[i].includes('#EXTINF:')) {
                     const info = lines[i];
-                    const name = info.split(',')[1] || "Unknown Channel";
+                    const name = info.split(',')[1]?.trim() || "Unknown";
                     const url = lines[i + 1]?.trim();
-                    
-                    // Logo extraction (if available)
+
+                    // Extract Logo
                     let logo = "https://cdn-icons-png.flaticon.com/512/716/716429.png";
                     if(info.includes('tvg-logo=')) {
                         logo = info.split('tvg-logo="')[1].split('"')[0];
                     }
 
                     if(url && url.startsWith('http')) {
-                        const div = document.createElement('div');
-                        div.className = 'channel-item';
-                        div.innerHTML = `<img src="${logo}" alt="tv"> <span>${name}</span>`;
-                        div.onclick = () => playNow(url, name, div);
-                        listDiv.appendChild(div);
+                        const card = document.createElement('div');
+                        card.className = 'channel-card';
+                        card.innerHTML = `
+                            <img src="${logo}" alt="${name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
+                            <span>${name}</span>
+                        `;
+                        card.onclick = () => playChannel(url, name, card);
+                        gallery.appendChild(card);
                     }
                 }
             }
         } catch (e) {
-            listDiv.innerHTML = "<p style='padding:20px; color:red;'>Failed to load channels!</p>";
+            gallery.innerHTML = "<p>চ্যানেল লোড করতে সমস্যা হচ্ছে!</p>";
         }
     }
 
-    function playNow(url, name, el) {
+    function playChannel(url, name, element) {
         if (Hls.isSupported()) {
             hls.destroy();
             hls = new Hls();
@@ -216,22 +184,23 @@
             video.play();
         }
 
-        playingTitle.innerText = name;
-        document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
-        el.classList.add('active');
+        nowPlaying.innerText = "Playing: " + name;
+        document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
+        element.classList.add('active');
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    function filterChannels() {
-        let input = document.getElementById('search').value.toLowerCase();
-        let items = document.querySelectorAll('.channel-item');
-        items.forEach(item => {
-            let text = item.innerText.toLowerCase();
-            item.style.display = text.includes(input) ? "flex" : "none";
+    function searchChannel() {
+        let filter = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.querySelectorAll('.channel-card');
+        cards.forEach(card => {
+            let name = card.innerText.toLowerCase();
+            card.style.display = name.includes(filter) ? "block" : "none";
         });
     }
 
-    loadTV();
+    loadGallery();
 </script>
+
 </body>
-        </html>
-    
+</html>
