@@ -1,8 +1,173 @@
 {
   "info": {
     "owner": "Rahul Islam",
-    "total_channels": 0,
-    "last_update": "2026-04-16 21:45:35"
+    "total_channels": 41,
+    "last_update": "2026-04-16 09:49 PM"
   },
-  "channels": []
+  "channels": [
+    {
+      "name": "Ananda TV (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-AnandaTV/index.m3u8"
+    },
+    {
+      "name": "Ananda TV (480p)",
+      "url": "http://103.99.249.139/anandatv/index.m3u8"
+    },
+    {
+      "name": "ATN Music (360p)",
+      "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI/atnmusic.stream/playlist.m3u8"
+    },
+    {
+      "name": "ATN News (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-ATNNews/index.m3u8"
+    },
+    {
+      "name": "Boishakhi TV",
+      "url": "https://boishakhi.sonarbanglatv.com/boishakhi/boishakhitv/index.m3u8"
+    },
+    {
+      "name": "BTV Chattogram (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-BTVChattagram/index.m3u8"
+    },
+    {
+      "name": "BTV National (1080p)",
+      "url": "https://www.btvlive.gov.bd/streams/ef8b8bbc-98b7-4ba7-a49d-a0adaf259d35/ES/355ba051-9a60-48aa-adcf-5a6c64da8c5c/355ba051-9a60-48aa-adcf-5a6c64da8c5c_3_playlist.m3u8"
+    },
+    {
+      "name": "BTV World (1080p)",
+      "url": "https://www.btvlive.gov.bd/streams/ef8b8bbc-98b7-4ba7-a49d-a0adaf259d35/ES/d96eb7f4-83c2-4472-9597-3568390a8ebf/d96eb7f4-83c2-4472-9597-3568390a8ebf_3_playlist.m3u8"
+    },
+    {
+      "name": "Channel 24 (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-Channel24HD/index.m3u8"
+    },
+    {
+      "name": "DBC News (480p)",
+      "url": "http://tvn3.chowdhury-shaheb.com/dbc/index.m3u8"
+    },
+    {
+      "name": "Desh TV (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-DeshTV/index.m3u8"
+    },
+    {
+      "name": "Deshi TV (720p)",
+      "url": "https://deshitv.deshitv24.net/live/myStream/playlist.m3u8"
+    },
+    {
+      "name": "Duronto TV (720p)",
+      "url": "https://tvsen4.aynaott.com/durontotv/index.m3u8"
+    },
+    {
+      "name": "Ekhon TV (1080p)",
+      "url": "https://tplay.live/out/bangladesh/ekhontv.index.m3u8"
+    },
+    {
+      "name": "Ekushey TV (480p)",
+      "url": "https://ekusheyserver.com/etvlivesn.m3u8"
+    },
+    {
+      "name": "Gazi TV (1080p)",
+      "url": "http://tvn1.chowdhury-shaheb.com/gazitv/index.m3u8"
+    },
+    {
+      "name": "Green TV (1080p)",
+      "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/greentv.stream/live-orgin/greentv.stream/playlist.m3u8"
+    },
+    {
+      "name": "Independent TV (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-IndependentTV/index.m3u8"
+    },
+    {
+      "name": "Jamuna TV (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-JamunaTelevision/index.m3u8"
+    },
+    {
+      "name": "Mohona TV (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-MohonaTV/index.m3u8"
+    },
+    {
+      "name": "Movie Bangla",
+      "url": "http://alvetv.com/moviebanglatv/8080/index.m3u8"
+    },
+    {
+      "name": "News 24 (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-News24HD/index.m3u8"
+    },
+    {
+      "name": "RTV (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-RTV/index.m3u8"
+    },
+    {
+      "name": "RTV (480p)",
+      "url": "http://tvn3.chowdhury-shaheb.com/rtv/index.m3u8"
+    },
+    {
+      "name": "Sangsad TV (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-SangsadTV/index.m3u8"
+    },
+    {
+      "name": "Somoy News TV (1080p)",
+      "url": "https://bozztv.com/rongo/rongo-somoy/index.m3u8"
+    },
+    {
+      "name": "T Sports (720p)",
+      "url": "https://tvsen7.aynaott.com/tsportshd/index.m3u8"
+    },
+    {
+      "name": "Vokta TV (720p)",
+      "url": "https://vokta.raytahost.com/live/voktatv/index.m3u8"
+    },
+    {
+      "name": "Aamar Bangla (720p)",
+      "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI/amarbanglatv.stream/playlist.m3u8"
+    },
+    {
+      "name": "Channel S (576p)",
+      "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI/chsukoff.stream/playlist.m3u8"
+    },
+    {
+      "name": "Disney International HD (1080p)",
+      "url": "http://116.90.120.151:8000/play/a0hp/index.m3u8"
+    },
+    {
+      "name": "Jalsha Movies HD (1080p)",
+      "url": "http://103.229.254.25:7001/play/a0dt/index.m3u8"
+    },
+    {
+      "name": "Madani Channel Bangla (1080p)",
+      "url": "https://streaming.madanichannel.tv/static/streaming-playlists/hls/d3e49b76-ac06-4689-a641-9200445b647f/master.m3u8"
+    },
+    {
+      "name": "National Geographic HD (1080p)",
+      "url": "http://103.157.248.140:8000/play/a012/index.m3u8"
+    },
+    {
+      "name": "National Geographic Wild HD (1080p)",
+      "url": "http://103.157.248.140:8000/play/a010/index.m3u8"
+    },
+    {
+      "name": "Nick Jr. (576p)",
+      "url": "http://103.157.248.140:8000/play/a00k/index.m3u8"
+    },
+    {
+      "name": "Nickelodeon (576p)",
+      "url": "http://103.157.248.140:8000/play/a01n/index.m3u8"
+    },
+    {
+      "name": "Peace TV Bangla (1080p)",
+      "url": "https://dzkyvlfyge.erbvr.com/PeaceTvBangla/index.m3u8"
+    },
+    {
+      "name": "Probashi TV News (1080p)",
+      "url": "http://158.69.24.53:8080/probashi_tv/index.m3u8"
+    },
+    {
+      "name": "Sonic (576p)",
+      "url": "http://103.229.254.25:7001/play/a0dl/index.m3u8"
+    },
+    {
+      "name": "Zee Bangla Sonar (576p)",
+      "url": "http://103.229.254.25:7001/play/a070/index.m3u8"
+    }
+  ]
 }
