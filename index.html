@@ -3,145 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BD LIVE TV | Pro Max Edition</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>RAHUL IPTV PRO | 2026</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
-        :root {
-            --primary: #ffcc00;
-            --bg: #050505;
-            --card: #121212;
-        }
-        body { margin: 0; background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
-        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; background: #000; border-bottom: 2px solid var(--primary); position: sticky; top: 0; z-index: 1000; }
-        .player-area { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px 0; background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); }
-        .video-container { width: 90%; max-width: 1000px; aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; border: 1px solid #333; box-shadow: 0 0 30px rgba(255, 204, 0, 0.2); position: relative; }
+        :root { --main-color: #00ffcc; --bg-dark: #0f0f0f; --card-bg: #1a1a1a; }
+        body { margin: 0; background: var(--bg-dark); color: white; font-family: 'Segoe UI', sans-serif; }
+        
+        /* Header & Search */
+        header { padding: 20px; text-align: center; background: #000; border-bottom: 2px solid var(--main-color); sticky; top: 0; z-index: 1000; }
+        .search-container { margin-top: 15px; }
+        input { width: 80%; max-width: 400px; padding: 12px; border-radius: 25px; border: 1px solid var(--main-color); background: #222; color: #fff; outline: none; }
+
+        /* Video Player */
+        .player-wrapper { width: 100%; max-width: 900px; margin: 20px auto; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px rgba(0,255,204,0.3); aspect-ratio: 16/9; }
         video { width: 100%; height: 100%; }
-        .watermark { margin-top: 10px; font-size: 12px; color: #666; letter-spacing: 2px; }
-        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; padding: 40px 5%; }
-        .channel-card { background: var(--card); border-radius: 15px; padding: 15px; text-align: center; cursor: pointer; border: 1px solid #222; transition: 0.3s; }
-        .channel-card:hover { transform: translateY(-5px); border-color: var(--primary); background: #1a1a1a; }
-        .channel-card img { width: 70px; height: 70px; object-fit: contain; margin-bottom: 10px; background: #000; border-radius: 10px; }
-        .channel-card span { display: block; font-size: 14px; font-weight: bold; }
-        .active { border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 204, 0, 0.3); }
-        #status { font-size: 14px; color: var(--primary); margin-top: 10px; transition: 0.3s; }
-        @media (max-width: 768px) { .gallery { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+
+        /* Grid System */
+        .container { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; }
+        .channel-card { background: var(--card-bg); border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; border: 1px solid #333; transition: 0.3s; }
+        .channel-card:hover { transform: scale(1.05); border-color: var(--main-color); box-shadow: 0 5px 15px rgba(0,255,204,0.2); }
+        .channel-card img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 10px; }
+        .channel-card p { margin: 0; font-size: 12px; font-weight: bold; color: #ccc; overflow: hidden; height: 34px; }
+        
+        #loading { text-align: center; color: var(--main-color); }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="font-size: 24px; font-weight: 900;">BD LIVE <span style="color: var(--primary);">TV</span></div>
-    <div style="font-size: 12px; color: #666;">@rahulislam03_edition</div>
+    <h2 style="margin:0; letter-spacing: 2px;">RAHUL <span style="color:var(--main-color)">IPTV PRO</span></h2>
+    <div class="search-container">
+        <input type="text" id="searchBar" placeholder="চ্যানেল বা মুভি খুঁজুন...">
+    </div>
 </header>
 
-<div class="player-area">
-    <div class="video-container">
-        <video id="video-player" controls autoplay poster="https://files.catbox.moe/k8u7t5.jpg"></video>
-    </div>
-    <div id="status">চ্যানেল সিলেক্ট করুন...</div>
-    <div class="watermark">DEVELOPED BY @RAHULISLAM03</div>
+<div class="player-wrapper">
+    <video id="video" controls autoplay poster="https://i.ibb.co/3S9f4XN/loading.png"></video>
 </div>
 
-<div class="gallery" id="channel-gallery">
-    </div>
+<div id="loading">চ্যানেলগুলো লোড হচ্ছে...</div>
+<div class="container" id="channelGrid"></div>
 
 <script>
-    const m3uUrl = 'https://raw.githubusercontent.com/Rahulislam03/bd-live-tv/main/live_tv.m3u';
-    const video = document.getElementById('video-player');
-    const gallery = document.getElementById('channel-gallery');
-    const status = document.getElementById('status');
+    const video = document.getElementById('video');
+    const grid = document.getElementById('channelGrid');
+    const searchBar = document.getElementById('searchBar');
+    const loading = document.getElementById('loading');
     let hls = new Hls();
+    let allChannels = [];
 
-    // Pentesting Method: Fallback/Alternative streams for premium channels (e.g., T Sports)
-    const fallbackStreams = {
-        "T Sports": [
-            "https://ndtvbd-raw.example.com/stream/t_sports.m3u8", // সিক্রেট অল্টারনেটিভ লিঙ্ক ১
-            "https://live-cdn.example.com/football/t_sports.m3u8"  // সিক্রেট অল্টারনেটিভ লিঙ্ক ২
-        ]
-    };
-
+    // ডেটা লোড করা
     async function loadChannels() {
         try {
-            const res = await fetch(m3uUrl);
-            const data = await res.text();
-            const lines = data.split('\n');
-            gallery.innerHTML = '';
-
-            for (let i = 0; i < lines.length; i++) {
-                if (lines[i].includes('#EXTINF:')) {
-                    const info = lines[i];
-                    const name = info.split(',')[1]?.trim() || "Channel";
-                    const url = lines[i+1]?.trim();
-                    let logo = "https://cdn-icons-png.flaticon.com/512/716/716429.png";
-                    if(info.includes('tvg-logo=')) logo = info.split('tvg-logo="')[1].split('"')[0];
-
-                    if(url && url.startsWith('http')) {
-                        const div = document.createElement('div');
-                        div.className = 'channel-item channel-card'; // Added compatibility classes
-                        div.innerHTML = `<img src="${logo}" alt="tv" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'"><span>${name}</span>`;
-                        div.onclick = () => startPlay(url, name, div);
-                        gallery.appendChild(div);
-                    }
-                }
-            }
-        } catch (e) { status.innerText = "Error loading playlist!"; }
-    }
-
-    function startPlay(url, name, el) {
-        status.innerText = "লোডিং: " + name + "...";
-        
-        // Pentesting Step: Check for fallback streams
-        let primaryUrl = url;
-        let altUrls = fallbackStreams[name] || [];
-        
-        initializeHls(primaryUrl, name, el, altUrls);
-    }
-
-    function initializeHls(primaryUrl, name, el, altUrls) {
-        if (Hls.isSupported()) {
-            hls.destroy();
-            hls = new Hls({
-                xhrSetup: function(xhr) { xhr.withCredentials = false; }, // Pentesting: Bypasses simple CORS
-                manifestLoadingMaxRetry: 5,
-                levelLoadingMaxRetry: 5,
-                enableWorker: true,
-                debug: false
-            });
-            
-            hls.loadSource(primaryUrl);
-            hls.attachMedia(video);
-            
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play();
-                status.innerText = "প্লে হচ্ছে: " + name;
-                updateActiveCard(el);
-            });
-
-            // Error recovery logic
-            hls.on(Hls.Events.ERROR, (event, data) => {
-                if (data.fatal) {
-                    if (altUrls.length > 0) {
-                        const nextAltUrl = altUrls.shift(); // Get and remove first alternative URL
-                        console.log(`Pentesting Log: Primary stream failed. Attempting fallback...`);
-                        status.innerText = `সোর্স ১ কাজ করছে না, সোর্স ২ চেষ্টা করা হচ্ছে: ${name}...`;
-                        hls.loadSource(nextAltUrl); // Inject fallback URL
-                    } else {
-                        status.innerText = `${name} বর্তমানে অফলাইন। অন্য চ্যানেল দেখুন।`;
-                        hls.recoverMediaError();
-                    }
-                }
-            });
+            const response = await fetch('channels.json');
+            const data = await response.json();
+            allChannels = data.channels;
+            displayChannels(allChannels);
+            loading.style.display = 'none';
+        } catch (e) {
+            loading.innerText = "ডেটা লোড করতে ব্যর্থ!";
         }
     }
 
-    function updateActiveCard(el) {
-        document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
-        el.classList.add('active');
-        window.scrollTo({top: 0, behavior: 'smooth'});
+    function displayChannels(channels) {
+        grid.innerHTML = "";
+        channels.forEach(ch => {
+            const div = document.createElement('div');
+            div.className = 'channel-card';
+            div.innerHTML = `
+                <img src="${ch.logo || 'https://cdn-icons-png.flaticon.com/512/716/716429.png'}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
+                <p>${ch.name}</p>
+            `;
+            div.onclick = () => playStream(ch.url, ch.name);
+            grid.appendChild(div);
+        });
     }
+
+    function playStream(url, name) {
+        if (hls) hls.destroy();
+        
+        // অ্যাডভান্সড বাইপাস মেকানিজম
+        const config = {
+            xhrSetup: function(xhr, url) {
+                xhr.withCredentials = false;
+                // Toffee বা SonyLiv লিঙ্ক হলে বিশেষ হেডার সেট করা
+                if (url.includes("toffeelive.com") || url.includes("sony")) {
+                    xhr.setRequestHeader("User-Agent", "Toffee (Linux;Android 14)");
+                }
+            }
+        };
+
+        if (Hls.isSupported()) {
+            hls = new Hls(config);
+            hls.loadSource(url);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = url;
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // সার্চ ফিচার
+    searchBar.addEventListener('input', (e) => {
+        const searchStr = e.target.value.toLowerCase();
+        const filtered = allChannels.filter(ch => ch.name.toLowerCase().includes(searchStr));
+        displayChannels(filtered);
+    });
 
     loadChannels();
 </script>
+
 </body>
 </html>
