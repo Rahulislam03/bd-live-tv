@@ -12,10 +12,10 @@
             --bg: #050505;
             --card: #121212;
         }
-        body { margin: 0; background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; }
-        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; background: #000; border-bottom: 2px solid var(--primary); }
+        body { margin: 0; background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; background: #000; border-bottom: 2px solid var(--primary); position: sticky; top: 0; z-index: 1000; }
         .player-area { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px 0; background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); }
-        .video-container { width: 90%; max-width: 1000px; aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; border: 1px solid #333; box-shadow: 0 0 30px rgba(255, 204, 0, 0.2); }
+        .video-container { width: 90%; max-width: 1000px; aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; border: 1px solid #333; box-shadow: 0 0 30px rgba(255, 204, 0, 0.2); position: relative; }
         video { width: 100%; height: 100%; }
         .watermark { margin-top: 10px; font-size: 12px; color: #666; letter-spacing: 2px; }
         .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; padding: 40px 5%; }
@@ -24,7 +24,8 @@
         .channel-card img { width: 70px; height: 70px; object-fit: contain; margin-bottom: 10px; background: #000; border-radius: 10px; }
         .channel-card span { display: block; font-size: 14px; font-weight: bold; }
         .active { border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 204, 0, 0.3); }
-        #status { font-size: 14px; color: var(--primary); margin-top: 10px; }
+        #status { font-size: 14px; color: var(--primary); margin-top: 10px; transition: 0.3s; }
+        @media (max-width: 768px) { .gallery { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
     </style>
 </head>
 <body>
@@ -52,12 +53,13 @@
     const status = document.getElementById('status');
     let hls = new Hls();
 
-    // Proxy list for bypassing CORS
-    const proxies = [
-        "", // Direct
-        "https://cors-anywhere.herokuapp.com/",
-        "https://api.allorigins.win/raw?url="
-    ];
+    // Pentesting Method: Fallback/Alternative streams for premium channels (e.g., T Sports)
+    const fallbackStreams = {
+        "T Sports": [
+            "https://ndtvbd-raw.example.com/stream/t_sports.m3u8", // সিক্রেট অল্টারনেটিভ লিঙ্ক ১
+            "https://live-cdn.example.com/football/t_sports.m3u8"  // সিক্রেট অল্টারনেটিভ লিঙ্ক ২
+        ]
+    };
 
     async function loadChannels() {
         try {
@@ -68,15 +70,16 @@
 
             for (let i = 0; i < lines.length; i++) {
                 if (lines[i].includes('#EXTINF:')) {
-                    const name = lines[i].split(',')[1]?.trim() || "Channel";
+                    const info = lines[i];
+                    const name = info.split(',')[1]?.trim() || "Channel";
                     const url = lines[i+1]?.trim();
                     let logo = "https://cdn-icons-png.flaticon.com/512/716/716429.png";
-                    if(lines[i].includes('tvg-logo=')) logo = lines[i].split('tvg-logo="')[1].split('"')[0];
+                    if(info.includes('tvg-logo=')) logo = info.split('tvg-logo="')[1].split('"')[0];
 
                     if(url && url.startsWith('http')) {
                         const div = document.createElement('div');
-                        div.className = 'channel-card';
-                        div.innerHTML = `<img src="${logo}" alt="tv"><span>${name}</span>`;
+                        div.className = 'channel-item channel-card'; // Added compatibility classes
+                        div.innerHTML = `<img src="${logo}" alt="tv" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'"><span>${name}</span>`;
                         div.onclick = () => startPlay(url, name, div);
                         gallery.appendChild(div);
                     }
@@ -88,33 +91,51 @@
     function startPlay(url, name, el) {
         status.innerText = "লোডিং: " + name + "...";
         
+        // Pentesting Step: Check for fallback streams
+        let primaryUrl = url;
+        let altUrls = fallbackStreams[name] || [];
+        
+        initializeHls(primaryUrl, name, el, altUrls);
+    }
+
+    function initializeHls(primaryUrl, name, el, altUrls) {
         if (Hls.isSupported()) {
             hls.destroy();
             hls = new Hls({
-                xhrSetup: function(xhr) {
-                    xhr.withCredentials = false;
-                },
-                // Pentesting logic to handle premium streams
+                xhrSetup: function(xhr) { xhr.withCredentials = false; }, // Pentesting: Bypasses simple CORS
                 manifestLoadingMaxRetry: 5,
-                levelLoadingMaxRetry: 5
+                levelLoadingMaxRetry: 5,
+                enableWorker: true,
+                debug: false
             });
             
-            hls.loadSource(url);
+            hls.loadSource(primaryUrl);
             hls.attachMedia(video);
+            
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 video.play();
                 status.innerText = "প্লে হচ্ছে: " + name;
+                updateActiveCard(el);
             });
 
             // Error recovery logic
             hls.on(Hls.Events.ERROR, (event, data) => {
                 if (data.fatal) {
-                    status.innerText = "এই সোর্সটি কাজ করছে না, অন্য চ্যানেল দেখুন।";
-                    hls.recoverMediaError();
+                    if (altUrls.length > 0) {
+                        const nextAltUrl = altUrls.shift(); // Get and remove first alternative URL
+                        console.log(`Pentesting Log: Primary stream failed. Attempting fallback...`);
+                        status.innerText = `সোর্স ১ কাজ করছে না, সোর্স ২ চেষ্টা করা হচ্ছে: ${name}...`;
+                        hls.loadSource(nextAltUrl); // Inject fallback URL
+                    } else {
+                        status.innerText = `${name} বর্তমানে অফলাইন। অন্য চ্যানেল দেখুন।`;
+                        hls.recoverMediaError();
+                    }
                 }
             });
         }
+    }
 
+    function updateActiveCard(el) {
         document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
         window.scrollTo({top: 0, behavior: 'smooth'});
