@@ -3,197 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BD LIVE TV | Ultra Premium</title>
+    <title>BD LIVE TV | Pro Max Edition</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         :root {
-            /* Premium Midnight Gold Theme */
-            --primary: #ffcc00; /* Luxury Gold */
-            --bg: #0d0d0d;      /* Deep Black */
-            --surface: #1a1a1a; /* Charcoal Gray */
-            --text-main: #ffffff;
-            --text-dim: #b3b3b3;
-            --gradient: linear-gradient(135deg, #ffcc00, #ff9500);
+            --primary: #ffcc00;
+            --bg: #050505;
+            --card: #121212;
         }
-
-        body {
-            margin: 0; background: var(--bg); color: var(--text-main);
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-        }
-
-        /* --- Header --- */
-        header {
-            height: 75px; background: rgba(13, 13, 13, 0.9); backdrop-filter: blur(20px);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 6%; position: sticky; top: 0; z-index: 1000;
-            border-bottom: 1px solid #222;
-        }
-        .logo { font-size: 26px; font-weight: 800; letter-spacing: -1px; }
-        .logo span { color: var(--primary); }
-
-        /* --- Search Bar --- */
-        .search-container {
-            background: #1f1f1f; border-radius: 50px; padding: 10px 20px;
-            display: flex; align-items: center; border: 1px solid #333; width: 30%;
-        }
-        .search-container input {
-            background: transparent; border: none; color: white; outline: none;
-            margin-left: 10px; width: 100%; font-size: 14px;
-        }
-
-        /* --- Main Player --- */
-        .player-wrapper {
-            width: 100%; background: #000; padding: 30px 0;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .video-canvas {
-            width: 90%; max-width: 1100px; aspect-ratio: 16/9;
-            background: #000; border-radius: 25px; overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 20px rgba(255, 204, 0, 0.1);
-            border: 1px solid #282828; position: relative;
-        }
+        body { margin: 0; background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; }
+        header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; background: #000; border-bottom: 2px solid var(--primary); }
+        .player-area { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px 0; background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); }
+        .video-container { width: 90%; max-width: 1000px; aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; border: 1px solid #333; box-shadow: 0 0 30px rgba(255, 204, 0, 0.2); }
         video { width: 100%; height: 100%; }
-
-        /* --- Watermark --- */
-        .watermark {
-            margin-top: 15px; font-size: 13px; color: var(--text-dim);
-            background: rgba(255, 255, 255, 0.05); padding: 5px 15px;
-            border-radius: 20px; letter-spacing: 1px;
-            border: 1px solid rgba(255, 204, 0, 0.2);
-        }
-
-        /* --- Gallery Grid --- */
-        .gallery-title {
-            padding: 40px 6% 20px; font-size: 22px; font-weight: 700;
-            display: flex; align-items: center; gap: 12px;
-        }
-        .grid {
-            display: grid; padding: 0 6% 60px;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 25px;
-        }
-
-        .card {
-            background: var(--surface); border-radius: 20px; padding: 20px;
-            text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid #252525;
-        }
-        .card:hover {
-            transform: scale(1.05); background: #222;
-            border-color: var(--primary); box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-        }
-        .card img {
-            width: 90px; height: 90px; object-fit: contain;
-            margin-bottom: 15px; border-radius: 15px; transition: 0.3s;
-        }
-        .card:hover img { transform: rotate(5deg); }
-        .card span { display: block; font-size: 15px; font-weight: 600; color: #eee; }
-
-        .card.active {
-            border-color: var(--primary); background: rgba(255, 204, 0, 0.05);
-            box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
-        }
-
-        /* Mobile View */
-        @media (max-width: 768px) {
-            .search-container { display: none; }
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-            .card { padding: 15px; }
-            .card img { width: 60px; height: 60px; }
-        }
+        .watermark { margin-top: 10px; font-size: 12px; color: #666; letter-spacing: 2px; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; padding: 40px 5%; }
+        .channel-card { background: var(--card); border-radius: 15px; padding: 15px; text-align: center; cursor: pointer; border: 1px solid #222; transition: 0.3s; }
+        .channel-card:hover { transform: translateY(-5px); border-color: var(--primary); background: #1a1a1a; }
+        .channel-card img { width: 70px; height: 70px; object-fit: contain; margin-bottom: 10px; background: #000; border-radius: 10px; }
+        .channel-card span { display: block; font-size: 14px; font-weight: bold; }
+        .active { border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 204, 0, 0.3); }
+        #status { font-size: 14px; color: var(--primary); margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">BD LIVE<span>TV</span></div>
-    <div class="search-container">
-        <i class="fas fa-search" style="color: #555;"></i>
-        <input type="text" id="find" placeholder="পছন্দের চ্যানেলটি খুঁজুন..." onkeyup="search()">
-    </div>
-    <div class="header-icons"><i class="fas fa-bars"></i></div>
+    <div style="font-size: 24px; font-weight: 900;">BD LIVE <span style="color: var(--primary);">TV</span></div>
+    <div style="font-size: 12px; color: #666;">@rahulislam03_edition</div>
 </header>
 
-<section class="player-wrapper">
-    <div class="video-canvas">
-        <video id="tv" controls autoplay poster="https://files.catbox.moe/k8u7t5.jpg"></video>
+<div class="player-area">
+    <div class="video-container">
+        <video id="video-player" controls autoplay poster="https://files.catbox.moe/k8u7t5.jpg"></video>
     </div>
-    <div class="watermark">
-        <i class="fas fa-shield-alt"></i> Developed by <b>@rahulislam03</b>
-    </div>
-</section>
-
-<div class="gallery-title">
-    <i class="fas fa-star" style="color: var(--primary);"></i> TOP CHANNELS FOR YOU
+    <div id="status">চ্যানেল সিলেক্ট করুন...</div>
+    <div class="watermark">DEVELOPED BY @RAHULISLAM03</div>
 </div>
 
-<div class="grid" id="main-gallery">
+<div class="gallery" id="channel-gallery">
     </div>
 
 <script>
     const m3uUrl = 'https://raw.githubusercontent.com/Rahulislam03/bd-live-tv/main/live_tv.m3u';
-    const videoPlayer = document.getElementById('tv');
-    const gallery = document.getElementById('main-gallery');
+    const video = document.getElementById('video-player');
+    const gallery = document.getElementById('channel-gallery');
+    const status = document.getElementById('status');
     let hls = new Hls();
 
-    async function load() {
+    // Proxy list for bypassing CORS
+    const proxies = [
+        "", // Direct
+        "https://cors-anywhere.herokuapp.com/",
+        "https://api.allorigins.win/raw?url="
+    ];
+
+    async function loadChannels() {
         try {
             const res = await fetch(m3uUrl);
-            const text = await res.text();
-            const lines = text.split('\n');
+            const data = await res.text();
+            const lines = data.split('\n');
             gallery.innerHTML = '';
 
             for (let i = 0; i < lines.length; i++) {
                 if (lines[i].includes('#EXTINF:')) {
-                    const name = lines[i].split(',')[1]?.trim();
-                    const url = lines[i + 1]?.trim();
+                    const name = lines[i].split(',')[1]?.trim() || "Channel";
+                    const url = lines[i+1]?.trim();
                     let logo = "https://cdn-icons-png.flaticon.com/512/716/716429.png";
-                    if(lines[i].includes('tvg-logo=')) {
-                        logo = lines[i].split('tvg-logo="')[1].split('"')[0];
-                    }
+                    if(lines[i].includes('tvg-logo=')) logo = lines[i].split('tvg-logo="')[1].split('"')[0];
 
                     if(url && url.startsWith('http')) {
-                        const card = document.createElement('div');
-                        card.className = 'card';
-                        card.innerHTML = `
-                            <img src="${logo}" alt="${name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
-                            <span>${name}</span>
-                        `;
-                        card.onclick = () => play(url, name, card);
-                        gallery.appendChild(card);
+                        const div = document.createElement('div');
+                        div.className = 'channel-card';
+                        div.innerHTML = `<img src="${logo}" alt="tv"><span>${name}</span>`;
+                        div.onclick = () => startPlay(url, name, div);
+                        gallery.appendChild(div);
                     }
                 }
             }
-        } catch (e) { gallery.innerHTML = "Error loading streams."; }
+        } catch (e) { status.innerText = "Error loading playlist!"; }
     }
 
-    function play(url, name, el) {
+    function startPlay(url, name, el) {
+        status.innerText = "লোডিং: " + name + "...";
+        
         if (Hls.isSupported()) {
             hls.destroy();
-            hls = new Hls();
+            hls = new Hls({
+                xhrSetup: function(xhr) {
+                    xhr.withCredentials = false;
+                },
+                // Pentesting logic to handle premium streams
+                manifestLoadingMaxRetry: 5,
+                levelLoadingMaxRetry: 5
+            });
+            
             hls.loadSource(url);
-            hls.attachMedia(videoPlayer);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => videoPlayer.play());
-        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-            videoPlayer.src = url;
-            videoPlayer.play();
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                video.play();
+                status.innerText = "প্লে হচ্ছে: " + name;
+            });
+
+            // Error recovery logic
+            hls.on(Hls.Events.ERROR, (event, data) => {
+                if (data.fatal) {
+                    status.innerText = "এই সোর্সটি কাজ করছে না, অন্য চ্যানেল দেখুন।";
+                    hls.recoverMediaError();
+                }
+            });
         }
-        document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+
+        document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    function search() {
-        let val = document.getElementById('find').value.toLowerCase();
-        document.querySelectorAll('.card').forEach(c => {
-            c.style.display = c.innerText.toLowerCase().includes(val) ? "block" : "none";
-        });
-    }
-
-    load();
+    loadChannels();
 </script>
-
 </body>
-        </html>
-        
+</html>
