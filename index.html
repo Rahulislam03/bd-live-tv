@@ -8,7 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         :root {
-            /* Premium Midnight Gold Theme */
             --primary: #ffcc00; /* Luxury Gold */
             --bg: #0d0d0d;      /* Deep Black */
             --surface: #1a1a1a; /* Charcoal Gray */
@@ -37,9 +36,7 @@
         .search-container {
             background: #1f1f1f; border-radius: 50px; padding: 10px 20px;
             display: flex; align-items: center; border: 1px solid #333; width: 35%;
-            transition: 0.3s;
         }
-        .search-container:focus-within { border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 204, 0, 0.1); }
         .search-container input {
             background: transparent; border: none; color: white; outline: none;
             margin-left: 10px; width: 100%; font-size: 14px;
@@ -62,8 +59,7 @@
         .watermark {
             margin-top: 20px; font-size: 13px; color: var(--text-dim);
             background: rgba(255, 255, 255, 0.05); padding: 8px 20px;
-            border-radius: 50px; letter-spacing: 1px;
-            border: 1px solid rgba(255, 204, 0, 0.2);
+            border-radius: 50px; border: 1px solid rgba(255, 204, 0, 0.2);
             backdrop-filter: blur(5px);
         }
 
@@ -71,7 +67,7 @@
         .gallery-title {
             padding: 40px 6% 20px; font-size: 22px; font-weight: 700;
             display: flex; align-items: center; gap: 12px;
-            text-transform: uppercase; letter-spacing: 1px;
+            text-transform: uppercase;
         }
         .grid {
             display: grid; padding: 0 6% 60px;
@@ -81,46 +77,22 @@
 
         .card {
             background: var(--surface); border-radius: 22px; padding: 25px 15px;
-            text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid #252525; position: relative; overflow: hidden;
+            text-align: center; cursor: pointer; transition: all 0.4s;
+            border: 1px solid #252525;
         }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--gradient); opacity: 0; transition: 0.3s; z-index: 0;
-        }
-        .card:hover {
-            transform: translateY(-10px); background: #222;
-            border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
+        .card:hover { transform: translateY(-8px); border-color: var(--primary); background: #222; }
         .card img {
             width: 85px; height: 85px; object-fit: contain;
-            margin-bottom: 15px; border-radius: 18px; position: relative; z-index: 1;
+            margin-bottom: 15px; border-radius: 18px; 
             background: #0d0d0d; padding: 10px; border: 1px solid #333;
         }
-        .card span { 
-            display: block; font-size: 15px; font-weight: 600; color: #eee; 
-            position: relative; z-index: 1;
-        }
+        .card span { display: block; font-size: 15px; font-weight: 600; color: #eee; }
 
-        .card.active {
-            border-color: var(--primary); background: rgba(255, 204, 0, 0.08);
-            box-shadow: 0 0 25px rgba(255, 204, 0, 0.15);
-        }
+        .card.active { border-color: var(--primary); background: rgba(255, 204, 0, 0.1); }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
-
-        /* Mobile View */
         @media (max-width: 768px) {
-            header { padding: 0 4%; }
             .search-container { display: none; }
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 4% 50px; }
-            .card { padding: 20px 10px; }
-            .card img { width: 65px; height: 65px; }
-            .video-canvas { width: 95%; border-radius: 15px; }
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
         }
     </style>
 </head>
@@ -130,7 +102,7 @@
     <div class="logo" onclick="location.reload()">BD LIVE<span>TV</span></div>
     <div class="search-container">
         <i class="fas fa-search" style="color: #555;"></i>
-        <input type="text" id="find" placeholder="পছন্দের চ্যানেলটি খুঁজুন..." onkeyup="search()">
+        <input type="text" id="find" placeholder="চ্যানেল খুঁজুন..." onkeyup="search()">
     </div>
     <div class="header-icons"><i class="fas fa-crown" style="color: var(--primary);"></i></div>
 </header>
@@ -140,78 +112,53 @@
         <video id="tv" controls autoplay playsinline poster="https://files.catbox.moe/k8u7t5.jpg"></video>
     </div>
     <div class="watermark">
-        <i class="fas fa-check-circle" style="color: var(--primary);"></i> Official Stream by <b>@rahulislam03</b>
+        <i class="fas fa-shield-alt" style="color: var(--primary);"></i> Developed by <b>@rahulislam03</b>
     </div>
 </section>
 
 <div class="gallery-title">
-    <i class="fas fa-bolt" style="color: var(--primary);"></i> LIVE CHANNELS
+    <i class="fas fa-play-circle" style="color: var(--primary);"></i> TV CHANNELS
 </div>
 
 <div class="grid" id="main-gallery">
     </div>
 
 <script>
-    // তোমার M3U লিঙ্কে ১০০+ চ্যানেল থাকলে এখানে সব আসবে
-    const m3uUrl = 'https://raw.githubusercontent.com/Rahulislam03/bd-live-tv/main/live_tv.m3u';
+    const jsonUrl = 'channels.json'; // সরাসরি JSON থেকে লোড হবে
     const videoPlayer = document.getElementById('tv');
     const gallery = document.getElementById('main-gallery');
     let hls = new Hls();
+    let channelData = [];
 
-    async function load() {
+    async function loadChannels() {
         try {
-            const res = await fetch(m3uUrl);
-            const text = await res.text();
-            const lines = text.split('\n');
-            gallery.innerHTML = '';
-
-            for (let i = 0; i < lines.length; i++) {
-                if (lines[i].includes('#EXTINF:')) {
-                    // নাম সংগ্রহ
-                    const infoLine = lines[i];
-                    const name = infoLine.split(',')[1]?.trim() || "Unknown Channel";
-                    
-                    // লিঙ্ক সংগ্রহ
-                    let url = "";
-                    for (let j = i + 1; j < lines.length; j++) {
-                        if (lines[j].trim() && !lines[j].startsWith('#')) {
-                            url = lines[j].trim();
-                            break;
-                        }
-                    }
-
-                    // লোগো সংগ্রহ (tvg-logo ট্যাগ থেকে)
-                    let logo = "https://cdn-icons-png.flaticon.com/512/716/716429.png";
-                    if(infoLine.includes('tvg-logo="')) {
-                        logo = infoLine.split('tvg-logo="')[1].split('"')[0];
-                    }
-
-                    if(url && url.startsWith('http')) {
-                        const card = document.createElement('div');
-                        card.className = 'card';
-                        card.innerHTML = `
-                            <img src="${logo}" alt="${name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
-                            <span>${name}</span>
-                        `;
-                        card.onclick = () => play(url, name, card);
-                        gallery.appendChild(card);
-                    }
-                }
-            }
-        } catch (e) { 
-            gallery.innerHTML = "<p style='color:red; padding: 20px;'>Error: চ্যানেল লোড করা সম্ভব হয়নি।</p>"; 
+            const res = await fetch(jsonUrl);
+            const data = await res.json();
+            channelData = data.channels;
+            render(channelData);
+        } catch (e) {
+            gallery.innerHTML = "<p style='color:red;'>JSON ফাইল লোড করতে সমস্যা হচ্ছে!</p>";
         }
     }
 
-    function play(url, name, el) {
-        // Player setup
-        const config = {
-            xhrSetup: xhr => xhr.setRequestHeader("User-Agent", "Toffee (Linux;Android 14)")
-        };
+    function render(list) {
+        gallery.innerHTML = '';
+        list.forEach(ch => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <img src="${ch.logo}" alt="${ch.name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
+                <span>${ch.name}</span>
+            `;
+            card.onclick = () => playStream(ch.url, card);
+            gallery.appendChild(card);
+        });
+    }
 
+    function playStream(url, el) {
         if (Hls.isSupported()) {
             hls.destroy();
-            hls = new Hls(config);
+            hls = new Hls({ xhrSetup: xhr => xhr.setRequestHeader("User-Agent", "Toffee") });
             hls.loadSource(url);
             hls.attachMedia(videoPlayer);
             hls.on(Hls.Events.MANIFEST_PARSED, () => videoPlayer.play());
@@ -219,8 +166,6 @@
             videoPlayer.src = url;
             videoPlayer.play();
         }
-
-        // UI Update
         document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -228,15 +173,11 @@
 
     function search() {
         let val = document.getElementById('find').value.toLowerCase();
-        document.querySelectorAll('.card').forEach(c => {
-            const name = c.querySelector('span').innerText.toLowerCase();
-            c.style.display = name.includes(val) ? "block" : "none";
-        });
+        const filtered = channelData.filter(ch => ch.name.toLowerCase().includes(val));
+        render(filtered);
     }
 
-    load();
+    loadChannels();
 </script>
-
 </body>
-                                                                          </html>
-        
+</html>
