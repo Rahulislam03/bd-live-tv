@@ -1,8 +1,34 @@
 {
   "info": {
     "owner": "Islam Rahul",
-    "total_channels": 0,
-    "last_update": "2026-04-17 07:39 PM"
+    "total": 5,
+    "last_update": "2026-04-17 07:58 PM"
   },
-  "channels": []
+  "channels": [
+    {
+      "name": "24/7 Gopal Bhar",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209611/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209611.png"
+    },
+    {
+      "name": "Sony Aath",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/1000001003/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/1000001003.png"
+    },
+    {
+      "name": "Star Jalsha",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/1000000961/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/1000000961.png"
+    },
+    {
+      "name": "Zee Bangla",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/1000000971/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/1000000971.png"
+    },
+    {
+      "name": "Colors Bangla",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/1000000951/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/1000000951.png"
+    }
+  ]
 }
