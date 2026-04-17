@@ -3,65 +3,70 @@ import json
 import re
 from datetime import datetime
 
-def fetch_tplay_data():
+def fetch_tplay_full():
+    # মেইন সোর্স এবং এপিআই সোর্স
     url = "https://tplay.live/tv"
+    vercel_base = "https://cloudfrontnet.vercel.app/tplay/playout/"
+    
     channels = []
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     }
 
     try:
-        print(f"Fetching data from: {url}")
+        print(f"চ্যানেল ডাটা সংগ্রহ করা হচ্ছে...")
         response = requests.get(url, headers=headers, timeout=25)
+        
         if response.status_code == 200:
-            html_content = response.text
-            
-            # Regex ব্যবহার করে লোগো, নাম এবং লিঙ্ক বের করা
-            # tplay-এর কার্ড ফরম্যাট অনুযায়ী প্যাটার্ন সাজানো হয়েছে
-            pattern = r'<div class="card.*?src="(.*?)".*?href="(.*?)".*?class="card-title">(.*?)<'
-            matches = re.findall(pattern, html_content, re.DOTALL)
+            # TPlay-এর কার্ড থেকে লোগো এবং চ্যানেল আইডি বের করা
+            # সাধারণত লিঙ্কে আইডি থাকে যেমন: /play/209611
+            pattern = r'class="card.*?src="(.*?)".*?href=".*?/play/(\d+)".*?class="card-title">(.*?)<'
+            matches = re.findall(pattern, response.text, re.DOTALL)
 
-            for logo_url, play_url, name in matches:
-                # যদি লোগো লিঙ্কটি রিলেটিভ হয় তবে মেইন ডোমেইন যোগ করা
-                full_logo = logo_url if logo_url.startswith('http') else f"https://tplay.live{logo_url}"
-                full_play = play_url if play_url.startswith('http') else f"https://tplay.live{play_url}"
+            for logo, ch_id, name in matches:
+                # তোমার দেওয়া cloudfrontnet ফরম্যাটে লিঙ্ক তৈরি করা
+                direct_url = f"{vercel_base}{ch_id}/master.m3u8"
                 
                 channels.append({
                     "name": name.strip(),
-                    "url": full_play,
-                    "logo": full_logo
+                    "url": direct_url,
+                    "logo": logo if logo.startswith('http') else f"https://tplay.live{logo}"
                 })
-        else:
-            print(f"Could not access TPlay. Status: {response.status_code}")
+        
+        # যদি কিছু না পায় তবে ব্যাকআপ হিসেবে সরাসরি Vercel ইনডেক্স চেক করা
+        if not channels:
+            print("TPlay scraping failed, trying Vercel index...")
+            v_res = requests.get("https://cloudfrontnet.vercel.app/", headers=headers, timeout=15)
+            v_matches = re.findall(r'href=".*?/playout/(\d+)/master.m3u8".*?>(.*?)<', v_res.text)
+            for ch_id, name in v_matches:
+                channels.append({
+                    "name": name.strip(),
+                    "url": f"{vercel_base}{ch_id}/master.m3u8",
+                    "logo": "https://cdn-icons-png.flaticon.com/512/716/716429.png"
+                })
+
     except Exception as e:
-        print(f"Error occurred: {e}")
+        print(f"Error: {e}")
     
     return channels
 
 def update_json():
-    # TPlay থেকে ডাটা সংগ্রহ
-    tplay_channels = fetch_tplay_data()
+    all_channels = fetch_tplay_full()
     
-    # যদি TPlay-তে কম চ্যানেল পাওয়া যায়, তবে ব্যাকআপ হিসেবে GitHub সোর্স যোগ করা
-    if not tplay_channels:
-        print("TPlay failed, using backup sources...")
-        # এখানে তোমার আগের GitHub সোর্সগুলো কাজ করবে
-    
-    final_json = {
+    final_data = {
         "info": {
-            "owner": "Rahul Islam",
-            "source": "tplay.live",
-            "total_channels": len(tplay_channels),
+            "owner": "Islam Rahul",
+            "total_channels": len(all_channels),
             "last_update": datetime.now().strftime("%Y-%m-%d %I:%M %p")
         },
-        "channels": tplay_channels
+        "channels": all_channels
     }
 
     with open('channels.json', 'w', encoding='utf-8') as f:
-        json.dump(final_json, f, indent=2, ensure_ascii=False)
+        json.dump(final_data, f, indent=2, ensure_ascii=False)
     
-    print(f"✅ Success! {len(tplay_channels)} channels saved with logos.")
+    print(f"✅ সাকসেস! মোট {len(all_channels)}টি চ্যানেল সরাসরি .m3u8 লিঙ্কসহ সেভ হয়েছে।")
 
 if __name__ == "__main__":
     update_json()
-    
+                    
