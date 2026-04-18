@@ -4,8 +4,8 @@ import concurrent.futures
 from datetime import datetime
 
 # Scanning settings
-START_ID = 1
-END_ID = 300000  # Gopal Bhar 209611 er moddhe thake
+START_ID = 300000
+END_ID = 99999999999999999999  # Gopal Bhar 209611 er moddhe thake
 THREADS = 50     # Eksathe koiti ID check hobe (beshi dile fast hobe)
 
 headers = {
