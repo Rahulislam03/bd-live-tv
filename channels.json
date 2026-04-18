@@ -1,1 +1,84 @@
-
+{
+  "info": {
+    "owner": "Islam Rahul",
+    "total_found": 15,
+    "last_scan": "2026-04-18 08:26 PM"
+  },
+  "channels": [
+    {
+      "name": "Channel 209587",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209587/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209587.png"
+    },
+    {
+      "name": "Channel 209592",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209592/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209592.png"
+    },
+    {
+      "name": "Channel 209593",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209593/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209593.png"
+    },
+    {
+      "name": "Channel 209611",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209611/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209611.png"
+    },
+    {
+      "name": "Channel 209612",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209612/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209612.png"
+    },
+    {
+      "name": "Channel 209617",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209617/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209617.png"
+    },
+    {
+      "name": "Channel 209618",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209618/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209618.png"
+    },
+    {
+      "name": "Channel 209622",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209622/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209622.png"
+    },
+    {
+      "name": "Channel 209627",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209627/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209627.png"
+    },
+    {
+      "name": "Channel 209869",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209869/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209869.png"
+    },
+    {
+      "name": "Channel 209901",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209901/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209901.png"
+    },
+    {
+      "name": "Channel 209902",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/209902/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/209902.png"
+    },
+    {
+      "name": "Channel 210419",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/210419/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/210419.png"
+    },
+    {
+      "name": "Channel 210427",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/210427/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/210427.png"
+    },
+    {
+      "name": "Channel 210448",
+      "url": "https://cloudfrontnet.vercel.app/tplay/playout/210448/master.m3u8",
+      "logo": "https://www.tataplay.com/cms-assets/s3fs-public/logos/210448.png"
+    }
+  ]
+}
