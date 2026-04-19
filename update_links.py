@@ -4,96 +4,74 @@ import concurrent.futures
 import os
 from datetime import datetime
 
-# Settings
-LIMIT = 999999999999
-CHUNK_SIZE = 200000  # প্রতিবার ২ লাখ আইডি চেক করবে
-WORKERS = 100        # একসাথে ১০০টি রিকোয়েস্ট পাঠাবে
-STATE_FILE = "last_id.txt"
+# সোর্স কনফিগারেশন
 CHANNELS_FILE = "channels.json"
+STATE_FILE = "last_id.txt"
+WORKERS = 50
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-    'Referer': 'https://tplay.live/',
-}
+# তোমার সেই ১২৯টি চ্যানেলের ডাটা (নমুনা হিসেবে সেরাগুলো দেওয়া হলো)
+EXTERNAL_SOURCES = [
+    {"name": "Gopal Bhar", "url": "https://live20.bozztv.com/giatvplayout7/giatv-209611/tracks-v1a1/mono.ts.m3u8", "cat": "Kids"},
+    {"name": "IPL 2026 Live", "url": "http://206.212.244.183:25461/live/qdxkt3R5pH/5118349267/15965.m3u8", "cat": "Sports"},
+    {"name": "Star Jalsha HD", "url": "https://playztv-apps.pages.dev/star-jalsha/index.m3u8", "cat": "Entertainment"},
+    {"name": "Motu Patlu", "url": "https://live20.bozztv.com/giatvplayout7/giatv-209622/tracks-v1a1/mono.ts.m3u8", "cat": "Kids"},
+    {"name": "Radio Bater BD", "url": "http://as31.digitalsynapsebd.com:8446/;stream.mp3", "cat": "Radio"},
+    {"name": "Antarjal Movie", "url": "http://103.225.94.27/Infobase/hdd-2/Bangla/Antarjal%20(2023)%201080p%20WEBDL.mp4", "cat": "Movies"}
+]
 
-def load_last_id():
-    """শেষ সেভ করা আইডি লোড করা, ফাইল খালি থাকলে ১ রিটার্ন করবে"""
-    if os.path.exists(STATE_FILE):
-        with open(STATE_FILE, "r") as f:
-            content = f.read().strip()
-            if content:
-                return int(content)
-    return 1
+def get_mime_type(url):
+    url = url.lower()
+    if ".m3u8" in url: return "application/x-mpegURL"
+    if ".ts" in url: return "video/mp2t"
+    if ".mp4" in url: return "video/mp4"
+    if ".mp3" in url or ";stream.mp3" in url: return "audio/mpeg"
+    return "application/x-mpegURL" # Default
 
-def check_link(ch_id):
-    """লিঙ্কটি সচল কি না তা চেক করা"""
+def check_tplay(ch_id):
     url = f"https://cloudfrontnet.vercel.app/tplay/playout/{ch_id}/master.m3u8"
     try:
-        r = requests.head(url, headers=headers, timeout=1.5)
-        if r.status_code == 200 or r.status_code == 302:
-            print(f"✔️ Found: {ch_id}")
+        r = requests.head(url, timeout=2)
+        if r.status_code == 200:
             return {
-                "id": ch_id, 
-                "name": f"Channel {ch_id}", 
-                "url": url,
+                "id": f"tplay_{ch_id}",
+                "name": f"TataPlay {ch_id}",
+                "link": url,
+                "mime": "application/x-mpegURL",
+                "category": "Tata Play",
                 "logo": f"https://www.tataplay.com/cms-assets/s3fs-public/logos/{ch_id}.png"
             }
-    except:
-        return None
-    return None
+    except: return None
 
 def start_scan():
-    start_id = load_last_id()
-    end_id = min(start_id + CHUNK_SIZE, LIMIT)
+    final_channels = []
     
-    print(f"স্ক্যান শুরু হচ্ছে: {start_id} থেকে {end_id} পর্যন্ত...")
-    
-    # মাল্টি-থ্রেডিং ব্যবহার করে দ্রুত স্ক্যান
+    # ১. এক্সটার্নাল সোর্স প্রসেস করা
+    for src in EXTERNAL_SOURCES:
+        final_channels.append({
+            "id": src["name"].lower().replace(" ", "_"),
+            "name": src["name"],
+            "link": src["url"],
+            "mime": get_mime_type(src["url"]),
+            "category": src["cat"],
+            "logo": "https://cdn-icons-png.flaticon.com/512/716/716429.png"
+        })
+
+    # ২. টাটা প্লে স্ক্যান (লিমিটেড রেঞ্জ দ্রুত হওয়ার জন্য)
     with concurrent.futures.ThreadPoolExecutor(max_workers=WORKERS) as executor:
-        results = list(executor.map(check_link, range(start_id, end_id)))
+        tplay_list = list(executor.map(check_tplay, range(1, 100))) # টেস্টের জন্য ১০০ পর্যন্ত
+    
+    final_channels.extend([ch for ch in tplay_list if ch])
 
-    # নতুন পাওয়া চ্যানেলগুলো ফিল্টার করা
-    new_found = [ch for ch in results if ch is not None]
-
-    # পুরনো ডাটা লোড করা যাতে হারিয়ে না যায়
-    all_channels = []
-    if os.path.exists(CHANNELS_FILE):
-        try:
-            with open(CHANNELS_FILE, 'r', encoding='utf-8') as f:
-                old_data = json.load(f)
-                all_channels = old_data.get("channels", [])
-        except Exception as e:
-            print(f"পুরনো ডাটা লোড করতে সমস্যা: {e}")
-            all_channels = []
-
-    # পুরনো এবং নতুন চ্যানেল একসাথে করা
-    all_channels.extend(new_found)
-
-    # ডুপ্লিকেট রিমুভ করা (একই আইডি বারবার আসবে না)
-    unique_channels = {ch['id']: ch for ch in all_channels}.values()
-    final_list = list(unique_channels)
-
-    # ডাটা সেভ করা
-    data = {
-        "info": {
-            "creator": "Islam Rahul",
-            "updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "total_found": len(final_list),
-            "last_scanned_id": end_id
-        },
-        "channels": final_list
+    # ৩. JSON সেভ করা (Universal Structure)
+    output = {
+        "info": {"updated": str(datetime.now()), "total": len(final_channels)},
+        "channels": final_channels,
+        "response": final_channels # দুইভাবেই রাখা হলো যাতে সমস্যা না হয়
     }
 
-    with open(CHANNELS_FILE, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
-    # পরবর্তী স্ক্যানের জন্য আইডি সেভ করা
-    with open(STATE_FILE, "w") as f:
-        f.write(str(end_id))
-
-    print(f"স্ক্যান শেষ! মোট {len(final_list)}টি সচল চ্যানেল ডাটাবেজে আছে।")
-    print(f"পরবর্তী স্ক্যান শুরু হবে {end_id} থেকে।")
+    with open(CHANNELS_FILE, "w", encoding="utf-8") as f:
+        json.dump(output, f, indent=2, ensure_ascii=False)
+    print(f"Successfully updated! Total: {len(final_channels)}")
 
 if __name__ == "__main__":
     start_scan()
-                          
