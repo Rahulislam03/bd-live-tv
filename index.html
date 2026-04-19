@@ -120,8 +120,7 @@
     <i class="fas fa-play-circle" style="color: var(--primary);"></i> TV CHANNELS
 </div>
 
-<div class="grid" id="main-gallery">
-</div>
+<div class="grid" id="main-gallery"></div>
 
 <footer style="background: #111; border-top: 1px solid #222; padding: 60px 6% 30px; margin-top: 50px;">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
@@ -134,9 +133,9 @@
         <div>
             <h4 style="color: var(--primary); margin-bottom: 20px; text-transform: uppercase; font-size: 16px;">Quick Links</h4>
             <ul style="list-style: none; padding: 0; color: var(--text-dim); font-size: 14px; line-height: 2;">
-                <li><i class="fas fa-chevron-right" style="font-size: 10px; margin-right: 8px;"></i> Privacy Policy</li>
-                <li><i class="fas fa-chevron-right" style="font-size: 10px; margin-right: 8px;"></i> Terms of Service</li>
-                <li><i class="fas fa-chevron-right" style="font-size: 10px; margin-right: 8px;"></i> DMCA Notice</li>
+                <li>Privacy Policy</li>
+                <li>Terms of Service</li>
+                <li>DMCA Notice</li>
             </ul>
         </div>
         <div>
@@ -148,14 +147,7 @@
                 <a href="#" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s;"><i class="fab fa-telegram-plane"></i></a>
                 <a href="#" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s;"><i class="fab fa-github"></i></a>
             </div>
-            <p style="margin-top: 20px; color: var(--text-dim); font-size: 14px;">
-                <i class="fas fa-envelope" style="color: var(--primary); margin-right: 8px;"></i> ddmmyr25@gmail.com
-            </p>
         </div>
-    </div>
-    <div style="text-align: center; border-top: 1px solid #222; padding-top: 30px; color: var(--text-dim); font-size: 13px;">
-        &copy; 2026 <b>BD LIVE TV</b>. All Rights Reserved. <br>
-        <span style="font-size: 11px; opacity: 0.6;">Powered by Rahul Islam Automation Engine</span>
     </div>
 </footer>
 
@@ -168,17 +160,16 @@
     let channelData = [];
 
     // CORS প্রক্সি যা ব্রাউজারে টফির লিঙ্ক আনব্লক করবে
-    const proxy = "https://corsproxy.io/?"; 
+    const proxy = "https://cors-anywhere.herokuapp.com/"; 
 
     async function loadChannels() {
         try {
             const res = await fetch(jsonUrl);
             const data = await res.json();
-            // মনিরুলের ডাটা থেকে চ্যানেল লিস্ট নেওয়া
             channelData = data.response; 
             render(channelData);
         } catch (e) {
-            gallery.innerHTML = "<p style='color:red; padding: 20px;'>চ্যানেল লিস্ট লোড করতে সমস্যা হচ্ছে!</p>";
+            gallery.innerHTML = "<p style='color:red; padding: 20px;'>ডাটা লোড হচ্ছে না!</p>";
         }
     }
 
@@ -191,35 +182,29 @@
                 <img src="${ch.logo}" alt="${ch.name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
                 <span>${ch.name}</span>
             `;
-            // মনিরুলের ডাটা অনুযায়ী 'link' কি ব্যবহার করা হয়েছে
-            card.onclick = () => playStream(ch.link, card);
+            // সরাসরি লিঙ্ক এবং হেডার পাস করা হচ্ছে
+            card.onclick = () => playStream(ch.link, card, ch.headers);
             gallery.appendChild(card);
         });
     }
 
-    function playStream(url, el) {
-        // প্রক্সি দিয়ে ইউআরএল তৈরি
-        const finalUrl = proxy + encodeURIComponent(url);
+    function playStream(url, el, headers) {
+        // প্রক্সি দিয়ে লিঙ্কটি মডিফাই করা হচ্ছে যাতে CORS ব্লক না হয়
+        const finalUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
 
         if (Hls.isSupported()) {
             hls.destroy();
             hls = new Hls({
                 xhrSetup: xhr => {
-                    // টফির জন্য প্রয়োজনীয় ফেক ইউজার এজেন্ট
+                    // টফি সিকিউরিটি হেডারগুলো পাস করা হচ্ছে
                     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 }
             });
             hls.loadSource(finalUrl);
             hls.attachMedia(videoPlayer);
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                videoPlayer.play().catch(() => {
-                    console.log("প্লেব্যাক শুরু করতে ইউজার ইন্টারঅ্যাকশন প্রয়োজন।");
-                });
+                videoPlayer.play().catch(e => console.log("Auto-play blocked"));
             });
-        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-            // আইফোন/সাফারি ব্রাউজারের জন্য
-            videoPlayer.src = finalUrl;
-            videoPlayer.play();
         }
         
         document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
@@ -237,4 +222,4 @@
 </script>
 </body>
     </html>
-
+    
