@@ -1,56 +1,75 @@
 import requests
 import json
 import concurrent.futures
+import os
 from datetime import datetime
 
-# শুধু বাংলাদেশি এবং স্পোর্টস চ্যানেলের সম্ভাব্য রেঞ্জগুলো
-SCAN_RANGES = [
-    range(1000000050, 1000000150), # Sports HD (Star Sports, Sony Ten)
-    range(1000000950, 1000001050), # Bengali HD (Star Jalsha, Zee Bangla)
-    range(1000001400, 1000001500), # Movies & News (Jalsha Movies, etc.)
-    range(1000001150, 1000001250), # Additional Bengali Channels
-    range(209580, 209650)          # Kids/Gopal Bhar Zone
-]
+# Settings
+LIMIT = 999999999999
+CHUNK_SIZE = 200000  # Protibar 2 lakh loop check korbe
+WORKERS = 100
+STATE_FILE = "last_id.txt" # Jekhane sesh hobe seta save thakbe
 
-def check_id(ch_id):
-    # তোমার বর্তমান প্রক্সি ইউআরএল
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    'Referer': 'https://tplay.live/',
+}
+
+# Jekhan theke scan shuru hobe seta load kora
+def load_last_id():
+    if os.path.exists(STATE_FILE):
+        with open(STATE_FILE, "r") as f:
+            return int(f.read().strip())
+    return 1 # Default shuru 1 theke
+
+def check_link(ch_id):
     url = f"https://cloudfrontnet.vercel.app/tplay/playout/{ch_id}/master.m3u8"
     try:
-        # দ্রুত চেক করার জন্য HEAD রিকোয়েস্ট এবং কম টাইমআউট
-        r = requests.head(url, timeout=3)
+        r = requests.head(url, headers=headers, timeout=1.5)
         if r.status_code == 200 or r.status_code == 302:
-            print(f"✅ Found: {ch_id}")
-            return {
-                "id": ch_id,
-                "name": f"Channel {ch_id}",
-                "url": url,
-                "logo": f"https://www.tataplay.com/cms-assets/s3fs-public/logos/{ch_id}.png"
-            }
+            print(f"✔️ Found: {ch_id}")
+            return {"id": ch_id, "name": f"Channel {ch_id}", "url": url}
     except:
         return None
     return None
 
-def main():
-    all_found = []
-    print("স্মার্ট বাংলাদেশি ও স্পোর্টস চ্যানেল স্ক্যান শুরু হচ্ছে...")
+def start_scan():
+    start_id = load_last_id()
+    end_id = min(start_id + CHUNK_SIZE, LIMIT)
     
-    # থ্রেড বাড়িয়ে দেওয়া হয়েছে যেন দ্রুত শেষ হয়
-    with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
-        for r in SCAN_RANGES:
-            results = list(executor.map(check_id, r))
-            all_found.extend([res for res in results if res is not None])
+    print(f"Scanning range: {start_id} theke {end_id} porjonto...")
+    valid_channels = []
 
-    # channels.json আপডেট
-    output = {
-        "info": {"owner": "Islam Rahul", "total": len(all_found), "updated": str(datetime.now())},
-        "channels": all_found
+    with concurrent.futures.ThreadPoolExecutor(max_workers=WORKERS) as executor:
+        results = list(executor.map(check_link, range(start_id, end_id)))
+
+    valid_channels = [ch for ch in results if ch is not None]
+
+    # Purono channels load kora jate replace na hoy, add hoy
+    all_channels = []
+    if os.path.exists('channels.json'):
+        try:
+            with open('channels.json', 'r') as f:
+                old_data = json.load(f)
+                all_channels = old_data.get("channels", [])
+        except: pass
+
+    all_channels.extend(valid_channels)
+
+    # Save Results
+    data = {
+        "info": {"creator": "Islam Rahul", "updated": str(datetime.now())},
+        "channels": all_channels
     }
-    
     with open('channels.json', 'w', encoding='utf-8') as f:
-        json.dump(output, f, indent=2)
-    
-    print(f"\nসফলভাবে {len(all_found)}টি চ্যানেল পাওয়া গেছে। গিটহাব আর এটি ক্যান্সেল করবে না।")
+        json.dump(data, f, indent=2)
+
+    # Next time-er jonno last ID save kora
+    with open(STATE_FILE, "w") as f:
+        f.write(str(end_id))
+
+    print(f"Scan shesh! Next scan shuru hobe {end_id} theke.")
 
 if __name__ == "__main__":
-    main()
+    start_scan()
     
