@@ -1,8 +1,292 @@
 {
-  "info": {
-    "owner": "Islam Rahul",
-    "total": 0,
-    "updated": "2026-04-19 13:00:11.555062"
-  },
-  "channels": []
-}
+    "status": "success",
+    "name": "Toffee Live Channels",
+    "owner": "Padma Flix",
+    "channels_amount": 78,
+    "Last_update": "2026-04-19 14:44:22",
+    "response": [
+        {
+            "category_name": "Toffee Live",
+            "name": "TOFFEE Sports VIP",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/sports_highlights/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://images.toffeelive.com/images/program/19779/logo/240x240/mobile_logo_975410001725875598.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "TOFFEE Movies VIP",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/toffee_movie/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://images.toffeelive.com/images/program/2708/logo/240x240/mobile_logo_724353001725875591.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "TOFFEE Dramas VIP",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/toffee_drama/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://images.toffeelive.com/images/program/44878/logo/240x240/mobile_logo_764950001725875605.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "CNN VIP",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/cnn/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://images.toffeelive.com/images/program/333/logo/240x240/mobile_logo_146607001735536058.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Somoy TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/somoy_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com//Xi_Ga5oBNnOkwJLWkhKP/posters/ef2899d5-1ae0-4fee-aee5-45f9b0b3ba80.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Independent TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/independent_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_480,q_75,f_webp/ES_cZZsBNnOkwJLW1Oz1/posters/b872b8f5-cb6b-45a1-a1cd-7609df51d614.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Desh TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/desh_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_480,q_75,f_webp/6Hz1PJwBcqxnFHJBhgkV/posters/845f1e3f-987a-47cc-a48d-ee12d8f4d419.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Jamuna TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/jamuna_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_640,q_75,f_webp/PiL635oBEef-9-uV2uCe/posters/36f380e0-6c71-4b27-a73b-2afb3ce7e982.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "ATN News",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/atn_news/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_640,q_75,f_webp/NCLx35oBEef-9-uVh-Dg/posters/af9773c7-7971-41a2-9b78-121fcb240c48.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "ATN Bangla",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/atn_bangla/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_640,q_75,f_webp/MCLv35oBEef-9-uVH-D2/posters/0d1e571c-ebb2-4277-9814-760a4f1603a6.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Nexus TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/nexus_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_480,q_75,f_webp/FHz5PJwBcqxnFHJBdAqW/posters/419869ac-8ddf-4909-86c1-b69f0a3adf13.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Movie Bangla",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/movie_bangla/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_480,q_75,f_webp/CXz4PJwBcqxnFHJBPwrG/posters/2f913e34-3a6c-45e6-9f1f-97bf129a2ff5.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Mohona TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/mohona_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_480,q_75,f_webp/-Xz3PJwBcqxnFHJBDAlE/posters/fecea361-8b60-4aeb-a530-6e27eee8178a.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Ananda TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/anandatv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com//wCM3l5sBEef-9-uVXFvD/posters/d80f7aee-5bd7-4edc-97eb-ead0e3ebbe09.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Bijoy TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/bijoytv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com//bns4l5sBcqxnFHJBVZ32/posters/feaf9f3d-cc3b-4a3d-81a3-2cb703e561eb.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Global TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/global_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_640,q_75,f_webp/0y_tDJsBNnOkwJLWNrdE/posters/2ff058e1-630f-4657-8dc6-b677e65642c5.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Channel S",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/channel_s/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com//WyPuDJsBEef-9-uVUA_z/posters/ea20055c-a824-443c-8083-ce8e2da8b922.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Bangla TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/bangla_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com//JiK-_poBEef-9-uVZv6L/posters/757a328e-70d6-45de-b093-0a843c69ade7.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Asian TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/asian_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com//MyK__poBEef-9-uVmf5l/posters/1eadef5b-28e7-4dc2-b42f-c67a3357c9a0.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Channel i",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/channel_i/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_640,q_75,f_webp/qnv835oBcqxnFHJBuQcB/posters/348dfac3-c1e0-485d-a72b-3d282c9e2c73.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Ekhon TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/ekhon_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.com/w_640,q_75,f_webp/o3v235oBcqxnFHJBkAdC/posters/159af631-796d-4342-a2a7-c272f32bcd32.png"
+        },
+        {
+            "category_name": "Toffee Live",
+            "name": "Ekattor TV",
+            "link": "https://bldcmprod-cdn.toffeelive.com/cdn/live/ekattor_tv/playlist.m3u8",
+            "headers": {
+                "Host": "bldcmprod-cdn.toffeelive.com",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+                "client-api-header": "null",
+                "accept-encoding": "gzip",
+                "cookie": "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9ibGRjbXByb2QtY2RuLnRvZmZlZWxpdmUuY29t:Expires=1776771456:KeyName=prod_linear:Signature=NuLN59mKVbsxcV-AxhKefPWGdov3ENhlHGYQgMfKL11oiiBfvxeYtpU6W0_8PY1qLKSFmX239xlLoZaNeTJcCw"
+            },
+            "logo": "https://assets-prod.services.toffeelive.co
