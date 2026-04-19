@@ -121,17 +121,16 @@
 </div>
 
 <div class="grid" id="main-gallery">
-    </div>
-    <footer style="background: #111; border-top: 1px solid #222; padding: 60px 6% 30px; margin-top: 50px;">
+</div>
+
+<footer style="background: #111; border-top: 1px solid #222; padding: 60px 6% 30px; margin-top: 50px;">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
-        
         <div>
             <div class="logo" style="margin-bottom: 20px;">BD LIVE<span>TV</span></div>
             <p style="color: var(--text-dim); line-height: 1.6; font-size: 14px;">
                 বাংলাদেশের অন্যতম সেরা ফ্রি আইপিটিভি প্ল্যাটফর্ম। আমরা সরাসরি হাই-কোয়ালিটি স্ট্রিমিং প্রদান করি।
             </p>
         </div>
-
         <div>
             <h4 style="color: var(--primary); margin-bottom: 20px; text-transform: uppercase; font-size: 16px;">Quick Links</h4>
             <ul style="list-style: none; padding: 0; color: var(--text-dim); font-size: 14px; line-height: 2;">
@@ -140,14 +139,11 @@
                 <li><i class="fas fa-chevron-right" style="font-size: 10px; margin-right: 8px;"></i> DMCA Notice</li>
             </ul>
         </div>
-
         <div>
             <h4 style="color: var(--primary); margin-bottom: 20px; text-transform: uppercase; font-size: 16px;">Connect with Us</h4>
             <div style="display: flex; gap: 15px;">
-                <a href="https://www.facebook.com/rahulislam03" 
-   target="_blank" 
-   style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s; text-decoration: none;">
-   <i class="fab fa-facebook-f"></i>
+                <a href="https://www.facebook.com/rahulislam03" target="_blank" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s; text-decoration: none;">
+                    <i class="fab fa-facebook-f"></i>
                 </a>
                 <a href="#" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s;"><i class="fab fa-telegram-plane"></i></a>
                 <a href="#" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s;"><i class="fab fa-github"></i></a>
@@ -157,16 +153,14 @@
             </p>
         </div>
     </div>
-
     <div style="text-align: center; border-top: 1px solid #222; padding-top: 30px; color: var(--text-dim); font-size: 13px;">
         &copy; 2026 <b>BD LIVE TV</b>. All Rights Reserved. <br>
         <span style="font-size: 11px; opacity: 0.6;">Powered by Rahul Islam Automation Engine</span>
     </div>
-    </footer>
-    
+</footer>
 
 <script>
-    const jsonUrl = 'channels.json'; // সরাসরি JSON থেকে লোড হবে
+    const jsonUrl = 'channels.json'; 
     const videoPlayer = document.getElementById('tv');
     const gallery = document.getElementById('main-gallery');
     let hls = new Hls();
@@ -192,15 +186,28 @@
                 <img src="${ch.logo}" alt="${ch.name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
                 <span>${ch.name}</span>
             `;
-            card.onclick = () => playStream(ch.url, card);
+            // এখানে ch ডাটা অবজেক্টটি পাস করা হচ্ছে যাতে হেডার থাকলে তা পাওয়া যায়
+            card.onclick = () => playStream(ch.url, card, ch.headers || null);
             gallery.appendChild(card);
         });
     }
 
-    function playStream(url, el) {
+    function playStream(url, el, headers = null) {
         if (Hls.isSupported()) {
             hls.destroy();
-            hls = new Hls({ xhrSetup: xhr => xhr.setRequestHeader("User-Agent", "Toffee") });
+            hls = new Hls({ 
+                xhrSetup: xhr => {
+                    if (headers) {
+                        // যদি JSON-এ আলাদা হেডার (যেমন Cookie, User-Agent) থাকে
+                        Object.keys(headers).forEach(key => {
+                            xhr.setRequestHeader(key, headers[key]);
+                        });
+                    } else {
+                        // ডিফল্ট হেডার
+                        xhr.setRequestHeader("User-Agent", "Toffee");
+                    }
+                } 
+            });
             hls.loadSource(url);
             hls.attachMedia(videoPlayer);
             hls.on(Hls.Events.MANIFEST_PARSED, () => videoPlayer.play());
