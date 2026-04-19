@@ -1,15 +1,15 @@
-name: Update Links Every 6 Hours
+name: Auto Scan Update
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # প্রতি ৬ ঘণ্টা পর পর রান হবে
-  workflow_dispatch: # ম্যানুয়ালি রান করার অপশন
+    - cron: "0 */4 * * *" # Protidin 6 ghonta por por (UTC time)
+  workflow_dispatch:      # Manual run korar option
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -17,16 +17,17 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: pip install requests
 
-      - name: Run update script
+      - name: Run Scanner
         run: python update_links.py
 
-      - name: Commit and push changes
+      - name: Commit and Push Changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add channels.json
-          git commit -m "Auto update channels" || exit 0
+          git config --global user.name "Islam Rahul"
+          git config --global user.email "rahul@example.com"
+          git add channels.json last_id.txt
+          git commit -m "Auto update scan results" || exit 0
           git push
+          
