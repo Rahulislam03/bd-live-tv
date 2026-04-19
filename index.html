@@ -152,24 +152,29 @@
 </footer>
 
 <script>
-    // মনিরুল ইসলামের ডাটা সোর্স
-    const jsonUrl = 'https://raw.githubusercontent.com/sm-monirulislam/Toffee-Auto-Update-Playlist/main/toffee_data.json'; 
+    // আপনার নিজস্ব লোকাল ডাটা সোর্স
+    const jsonUrl = 'channels.json'; 
     const videoPlayer = document.getElementById('tv');
     const gallery = document.getElementById('main-gallery');
     let hls = new Hls();
     let channelData = [];
 
-    // CORS প্রক্সি যা ব্রাউজারে টফির লিঙ্ক আনব্লক করবে
-    const proxy = "https://cors-anywhere.herokuapp.com/"; 
+    // CORS প্রক্সি যা ব্রাউজারে স্ট্রিম আনব্লক করতে সাহায্য করতে পারে
+    const proxy = "https://corsproxy.io/?"; 
 
     async function loadChannels() {
         try {
             const res = await fetch(jsonUrl);
             const data = await res.json();
-            channelData = data.response; 
+            
+            // আপনার JSON যদি সরাসরি একটা লিস্ট হয় তবে 'data' ব্যবহার হবে, 
+            // আর যদি টফির মতো 'response' এর ভেতরে থাকে তবে 'data.response' ব্যবহার হবে।
+            channelData = Array.isArray(data) ? data : (data.response || []); 
+            
             render(channelData);
         } catch (e) {
-            gallery.innerHTML = "<p style='color:red; padding: 20px;'>ডাটা লোড হচ্ছে না!</p>";
+            console.error(e);
+            gallery.innerHTML = "<p style='color:red; padding: 20px;'>channels.json ফাইলটি পাওয়া যাচ্ছে না বা ভুল আছে!</p>";
         }
     }
 
@@ -182,21 +187,19 @@
                 <img src="${ch.logo}" alt="${ch.name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
                 <span>${ch.name}</span>
             `;
-            // সরাসরি লিঙ্ক এবং হেডার পাস করা হচ্ছে
-            card.onclick = () => playStream(ch.link, card, ch.headers);
+            card.onclick = () => playStream(ch.link, card);
             gallery.appendChild(card);
         });
     }
 
-    function playStream(url, el, headers) {
-        // প্রক্সি দিয়ে লিঙ্কটি মডিফাই করা হচ্ছে যাতে CORS ব্লক না হয়
-        const finalUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
+    function playStream(url, el) {
+        // প্রক্সি ব্যবহার করা হচ্ছে যাতে CORS জনিত সমস্যা না হয়
+        const finalUrl = proxy + encodeURIComponent(url);
 
         if (Hls.isSupported()) {
             hls.destroy();
             hls = new Hls({
                 xhrSetup: xhr => {
-                    // টফি সিকিউরিটি হেডারগুলো পাস করা হচ্ছে
                     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 }
             });
@@ -205,6 +208,9 @@
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 videoPlayer.play().catch(e => console.log("Auto-play blocked"));
             });
+        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+            videoPlayer.src = finalUrl;
+            videoPlayer.play();
         }
         
         document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
@@ -222,4 +228,4 @@
 </script>
 </body>
     </html>
-    
+
