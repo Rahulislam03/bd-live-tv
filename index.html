@@ -78,7 +78,7 @@
         .card {
             background: var(--surface); border-radius: 22px; padding: 25px 15px;
             text-align: center; cursor: pointer; transition: all 0.4s;
-            border: 1px solid #252525; height: 100%;
+            border: 1px solid #252525;
         }
         .card:hover { transform: translateY(-8px); border-color: var(--primary); background: #222; }
         .card img {
@@ -86,14 +86,13 @@
             margin-bottom: 15px; border-radius: 18px; 
             background: #0d0d0d; padding: 10px; border: 1px solid #333;
         }
-        .card span { display: block; font-size: 14px; font-weight: 600; color: #eee; line-height: 1.4; }
+        .card span { display: block; font-size: 15px; font-weight: 600; color: #eee; }
 
         .card.active { border-color: var(--primary); background: rgba(255, 204, 0, 0.1); }
 
         @media (max-width: 768px) {
             .search-container { display: none; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-            .video-canvas { width: 95%; }
         }
     </style>
 </head>
@@ -122,7 +121,7 @@
 </div>
 
 <div class="grid" id="main-gallery">
-    </div>
+</div>
 
 <footer style="background: #111; border-top: 1px solid #222; padding: 60px 6% 30px; margin-top: 50px;">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
@@ -143,11 +142,11 @@
         <div>
             <h4 style="color: var(--primary); margin-bottom: 20px; text-transform: uppercase; font-size: 16px;">Connect with Us</h4>
             <div style="display: flex; gap: 15px;">
-                <a href="#" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s; text-decoration: none;">
+                <a href="https://www.facebook.com/rahulislam03" target="_blank" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s; text-decoration: none;">
                     <i class="fab fa-facebook-f"></i>
                 </a>
                 <a href="#" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s;"><i class="fab fa-telegram-plane"></i></a>
-                <a href="https://github.com/sm-monirulislam/Toffee-Auto-Update-Playlist" target="_blank" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s;"><i class="fab fa-github"></i></a>
+                <a href="#" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s;"><i class="fab fa-github"></i></a>
             </div>
             <p style="margin-top: 20px; color: var(--text-dim); font-size: 14px;">
                 <i class="fas fa-envelope" style="color: var(--primary); margin-right: 8px;"></i> ddmmyr25@gmail.com
@@ -161,23 +160,25 @@
 </footer>
 
 <script>
-    // মনিরুল ইসলামের অটো-আপডেট ডাটা ইউআরএল
+    // মনিরুল ইসলামের ডাটা সোর্স
     const jsonUrl = 'https://raw.githubusercontent.com/sm-monirulislam/Toffee-Auto-Update-Playlist/main/toffee_data.json'; 
     const videoPlayer = document.getElementById('tv');
     const gallery = document.getElementById('main-gallery');
     let hls = new Hls();
     let channelData = [];
 
+    // CORS প্রক্সি যা ব্রাউজারে টফির লিঙ্ক আনব্লক করবে
+    const proxy = "https://corsproxy.io/?"; 
+
     async function loadChannels() {
         try {
             const res = await fetch(jsonUrl);
             const data = await res.json();
-            // মনিরুলের ডাটাতে লিস্ট থাকে 'response' এর ভেতরে
+            // মনিরুলের ডাটা থেকে চ্যানেল লিস্ট নেওয়া
             channelData = data.response; 
             render(channelData);
         } catch (e) {
-            gallery.innerHTML = "<p style='color:red; padding: 20px;'>চ্যানেল লিস্ট লোড করতে সমস্যা হচ্ছে! দয়া করে ইন্টারনেট কানেকশন চেক করুন।</p>";
-            console.error("Error loading JSON:", e);
+            gallery.innerHTML = "<p style='color:red; padding: 20px;'>চ্যানেল লিস্ট লোড করতে সমস্যা হচ্ছে!</p>";
         }
     }
 
@@ -190,37 +191,34 @@
                 <img src="${ch.logo}" alt="${ch.name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
                 <span>${ch.name}</span>
             `;
-            // 'link' প্যারামিটারটি মনিরুলের JSON অনুযায়ী এবং 'headers' পাঠানো হচ্ছে
-            card.onclick = () => playStream(ch.link, card, ch.headers);
+            // মনিরুলের ডাটা অনুযায়ী 'link' কি ব্যবহার করা হয়েছে
+            card.onclick = () => playStream(ch.link, card);
             gallery.appendChild(card);
         });
     }
 
-    function playStream(url, el, headers) {
+    function playStream(url, el) {
+        // প্রক্সি দিয়ে ইউআরএল তৈরি
+        const finalUrl = proxy + encodeURIComponent(url);
+
         if (Hls.isSupported()) {
             hls.destroy();
-            hls = new Hls({ 
+            hls = new Hls({
                 xhrSetup: xhr => {
-                    // টফির সিকিউরিটি হেডারগুলো অটোমেটিক সেট করা হচ্ছে
-                    xhr.setRequestHeader("User-Agent", headers["user-agent"] || "Mozilla/5.0 (Linux; Android 14)");
-                    if (headers.cookie && headers.cookie !== "COOKIE_NOT_FOUND") {
-                        xhr.setRequestHeader("Cookie", headers.cookie);
-                    }
-                    // টফির জন্য Referer খুবই গুরুত্বপূর্ণ
-                    xhr.setRequestHeader("Referer", "https://toffeelive.com/");
-                } 
-            });
-            hls.loadSource(url);
-            hls.attachMedia(videoPlayer);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => videoPlayer.play());
-            
-            hls.on(Hls.Events.ERROR, (event, data) => {
-                if (data.fatal) {
-                    console.warn("ভিডিও প্লে করতে সমস্যা হচ্ছে। সেশন এক্সপায়ার হয়ে থাকতে পারে।");
+                    // টফির জন্য প্রয়োজনীয় ফেক ইউজার এজেন্ট
+                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 }
             });
+            hls.loadSource(finalUrl);
+            hls.attachMedia(videoPlayer);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                videoPlayer.play().catch(() => {
+                    console.log("প্লেব্যাক শুরু করতে ইউজার ইন্টারঅ্যাকশন প্রয়োজন।");
+                });
+            });
         } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-            videoPlayer.src = url;
+            // আইফোন/সাফারি ব্রাউজারের জন্য
+            videoPlayer.src = finalUrl;
             videoPlayer.play();
         }
         
@@ -238,5 +236,5 @@
     loadChannels();
 </script>
 </body>
-                                                                                                                               </html>
-                
+    </html>
+
