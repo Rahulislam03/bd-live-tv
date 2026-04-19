@@ -90,6 +90,32 @@
 
         .card.active { border-color: var(--primary); background: rgba(255, 204, 0, 0.1); }
 
+        /* --- Footer --- */
+        footer {
+            background: #0a0a0a; border-top: 1px solid #222; padding: 60px 6% 30px;
+            margin-top: 50px;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px; margin-bottom: 40px;
+        }
+        .footer-logo { font-size: 24px; font-weight: 800; margin-bottom: 20px; }
+        .footer-logo span { color: var(--primary); }
+        .footer-text { color: var(--text-dim); line-height: 1.6; font-size: 14px; }
+        .footer-title { color: var(--primary); margin-bottom: 20px; font-size: 16px; font-weight: 700; text-transform: uppercase; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+        .social-icons { display: flex; gap: 15px; }
+        .social-icons a {
+            width: 40px; height: 40px; background: #1a1a1a; display: flex;
+            align-items: center; justify-content: center; border-radius: 50%;
+            color: white; border: 1px solid #333; transition: 0.3s; text-decoration: none;
+        }
+        .social-icons a:hover { background: var(--primary); color: #000; border-color: var(--primary); transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid #222; padding-top: 30px; text-align: center; color: #555; font-size: 13px; }
+
         @media (max-width: 768px) {
             .search-container { display: none; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
@@ -122,59 +148,54 @@
 
 <div class="grid" id="main-gallery"></div>
 
-<footer style="background: #111; border-top: 1px solid #222; padding: 60px 6% 30px; margin-top: 50px;">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+<footer>
+    <div class="footer-grid">
         <div>
-            <div class="logo" style="margin-bottom: 20px;">BD LIVE<span>TV</span></div>
-            <p style="color: var(--text-dim); line-height: 1.6; font-size: 14px;">
-                বাংলাদেশের অন্যতম সেরা ফ্রি আইপিটিভি প্ল্যাটফর্ম। আমরা সরাসরি হাই-কোয়ালিটি স্ট্রিমিং প্রদান করি।
+            <div class="footer-logo">BD LIVE<span>TV</span></div>
+            <p class="footer-text">
+                
             </p>
         </div>
         <div>
-            <h4 style="color: var(--primary); margin-bottom: 20px; text-transform: uppercase; font-size: 16px;">Quick Links</h4>
-            <ul style="list-style: none; padding: 0; color: var(--text-dim); font-size: 14px; line-height: 2;">
-                <li>Privacy Policy</li>
-                <li>Terms of Service</li>
-                <li>DMCA Notice</li>
+            <div class="footer-title">Quick Links</div>
+            <ul class="footer-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">All Channels</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
             </ul>
         </div>
         <div>
-            <h4 style="color: var(--primary); margin-bottom: 20px; text-transform: uppercase; font-size: 16px;">Connect with Us</h4>
-            <div style="display: flex; gap: 15px;">
-                <a href="https://www.facebook.com/rahulislam03" target="_blank" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s; text-decoration: none;">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s;"><i class="fab fa-telegram-plane"></i></a>
-                <a href="#" style="width: 40px; height: 40px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid #333; transition: 0.3s;"><i class="fab fa-github"></i></a>
+            <div class="footer-title">Social Connect</div>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/rahulislam03" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-telegram-plane"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fas fa-globe"></i></a>
             </div>
         </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2026 <b>BD LIVE TV</b>. All Rights Reserved. Designed with <i class="fas fa-heart" style="color: red;"></i> by <b>Rahul Islam</b>
     </div>
 </footer>
 
 <script>
-    // আপনার নিজস্ব লোকাল ডাটা সোর্স
     const jsonUrl = 'channels.json'; 
     const videoPlayer = document.getElementById('tv');
     const gallery = document.getElementById('main-gallery');
     let hls = new Hls();
     let channelData = [];
-
-    // CORS প্রক্সি যা ব্রাউজারে স্ট্রিম আনব্লক করতে সাহায্য করতে পারে
     const proxy = "https://corsproxy.io/?"; 
 
     async function loadChannels() {
         try {
             const res = await fetch(jsonUrl);
             const data = await res.json();
-            
-            // আপনার JSON যদি সরাসরি একটা লিস্ট হয় তবে 'data' ব্যবহার হবে, 
-            // আর যদি টফির মতো 'response' এর ভেতরে থাকে তবে 'data.response' ব্যবহার হবে।
             channelData = Array.isArray(data) ? data : (data.response || []); 
-            
             render(channelData);
         } catch (e) {
-            console.error(e);
-            gallery.innerHTML = "<p style='color:red; padding: 20px;'>channels.json ফাইলটি পাওয়া যাচ্ছে না বা ভুল আছে!</p>";
+            gallery.innerHTML = "<p style='color:red; padding: 20px;'>Data load hoyni!</p>";
         }
     }
 
@@ -193,26 +214,14 @@
     }
 
     function playStream(url, el) {
-        // প্রক্সি ব্যবহার করা হচ্ছে যাতে CORS জনিত সমস্যা না হয়
         const finalUrl = proxy + encodeURIComponent(url);
-
         if (Hls.isSupported()) {
             hls.destroy();
-            hls = new Hls({
-                xhrSetup: xhr => {
-                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                }
-            });
+            hls = new Hls({ xhrSetup: xhr => { xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest"); } });
             hls.loadSource(finalUrl);
             hls.attachMedia(videoPlayer);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                videoPlayer.play().catch(e => console.log("Auto-play blocked"));
-            });
-        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-            videoPlayer.src = finalUrl;
-            videoPlayer.play();
+            hls.on(Hls.Events.MANIFEST_PARSED, () => { videoPlayer.play(); });
         }
-        
         document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -220,12 +229,11 @@
 
     function search() {
         let val = document.getElementById('find').value.toLowerCase();
-        const filtered = channelData.filter(ch => ch.name.toLowerCase().includes(val));
-        render(filtered);
+        render(channelData.filter(ch => ch.name.toLowerCase().includes(val)));
     }
 
     loadChannels();
 </script>
 </body>
-    </html>
-
+                        </html>
+                                                      
