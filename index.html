@@ -152,9 +152,7 @@
     <div class="footer-grid">
         <div>
             <div class="footer-logo">BD LIVE<span>TV</span></div>
-            <p class="footer-text">
-                
-            </p>
+            <p class="footer-text"></p>
         </div>
         <div>
             <div class="footer-title">Quick Links</div>
@@ -190,9 +188,10 @@
 
     async function loadChannels() {
         try {
-            const res = await fetch(jsonUrl);
+            // Cache এড়াতে টাইমস্ট্যাম্প যোগ করা হয়েছে
+            const res = await fetch(jsonUrl + '?t=' + new Date().getTime());
             const data = await res.json();
-            channelData = Array.isArray(data) ? data : (data.response || []); 
+            channelData = data.channels || data.response || []; 
             render(channelData);
         } catch (e) {
             gallery.innerHTML = "<p style='color:red; padding: 20px;'>Data load hoyni!</p>";
@@ -208,20 +207,43 @@
                 <img src="${ch.logo}" alt="${ch.name}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/716/716429.png'">
                 <span>${ch.name}</span>
             `;
-            card.onclick = () => playStream(ch.link, card);
+            card.onclick = () => playStream(ch, card);
             gallery.appendChild(card);
         });
     }
 
-    function playStream(url, el) {
+    function playStream(ch, el) {
+        const url = ch.link;
+        const mime = ch.mime || ch.mime_type || "";
         const finalUrl = proxy + encodeURIComponent(url);
-        if (Hls.isSupported()) {
-            hls.destroy();
-            hls = new Hls({ xhrSetup: xhr => { xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest"); } });
-            hls.loadSource(finalUrl);
-            hls.attachMedia(videoPlayer);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => { videoPlayer.play(); });
+
+        // ১. ভিডিও সোর্স রিসেট করা
+        videoPlayer.pause();
+        videoPlayer.removeAttribute('src');
+        videoPlayer.load();
+
+        // ২. HLS (.m3u8) হলে
+        if (mime === "application/x-mpegURL" || url.includes(".m3u8")) {
+            if (Hls.isSupported()) {
+                hls.destroy();
+                hls = new Hls({ xhrSetup: xhr => { xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest"); } });
+                hls.loadSource(finalUrl);
+                hls.attachMedia(videoPlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => { videoPlayer.play(); });
+            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                videoPlayer.src = finalUrl;
+                videoPlayer.play();
+            }
+        } 
+        // ৩. অডিও বা অন্যান্য সরাসরি ফাইল (MP4, TS, MP3) হলে
+        else {
+            if (hls) hls.destroy();
+            videoPlayer.src = finalUrl;
+            if (mime) videoPlayer.type = mime;
+            videoPlayer.play();
         }
+
+        // UI আপডেট
         document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -235,5 +257,5 @@
     loadChannels();
 </script>
 </body>
-                        </html>
-                                                      
+    </html>
+        
